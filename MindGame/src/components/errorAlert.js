@@ -1,26 +1,30 @@
 import React from "react";
-import { Alert, IconButton, HStack, VStack, CloseIcon, Text, Center } from "native-base";
+import { Alert, IconButton, HStack, VStack, CloseIcon, Text, Center, Box } from "native-base";
 
 export function errorAlert(message){
-    return (
-            <Center flex={1} px="3">
-                <Alert w="100%" status="error">
-                    <VStack space={2} flexShrink={1} w="100%">
-                    <HStack flexShrink={1} space={2} justifyContent="space-between">
-                        <HStack space={2} flexShrink={1}>
-                        <Alert.Icon mt="1" />
-                        <Text fontSize="md" color="coolGray.800">
-                            {message}
-                        </Text>
-                        </HStack>
-                        <IconButton variant="unstyled" _focus={{
-                    borderWidth: 0
-                    }} icon={<CloseIcon size="3" />} _icon={{
-                    color: "coolGray.600"
-                    }} />
-                    </HStack>
-                    </VStack>
-                </Alert>
-            </Center>
-    )
+    return <Center>
+    <Alert maxW="400" status="info" colorScheme="info">
+      <VStack space={2} flexShrink={1} w="100%">
+        <HStack flexShrink={1} space={2} alignItems="center" justifyContent="space-between">
+          <HStack flexShrink={1} space={2} alignItems="center">
+            <Alert.Icon />
+            <Text fontSize="md" fontWeight="medium" color="coolGray.800">
+              We are going live in July!
+            </Text>
+          </HStack>
+          <IconButton variant="unstyled" _focus={{
+          borderWidth: 0
+        }} icon={<CloseIcon size="3" />} _icon={{
+          color: "coolGray.600"
+        }} />
+        </HStack>
+        <Box pl="6" _text={{
+        color: "coolGray.600"
+      }}>
+          We are happy to announce that we are going live on July 28th. Get
+          ready!
+        </Box>
+      </VStack>
+    </Alert>
+  </Center>;
 }

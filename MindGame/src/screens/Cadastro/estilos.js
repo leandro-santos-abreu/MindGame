@@ -9,7 +9,10 @@ export default StyleSheet.create({
     image: {
         alignSelf: "center",
         marginTop: 50,
-        marginBottom: 50
+        marginBottom: 20,
+        resizeMode: "contain",
+        width: 200,
+        height: 200
     },
     titles:{
         color: '#397DC9',

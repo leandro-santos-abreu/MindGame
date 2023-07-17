@@ -1,0 +1,14 @@
+{
+    "Titulo": "Cadastre-se",
+    "Email": "Email",
+    "Email_Placeholder": "Digite o seu email",
+    "Senha": "Senha",
+    "Senha_Placeholder": "Digite a sua senha",
+    "TipoUsuario": "Tipo de Usuário",
+    "TipoUsuario_Placeholder": "Digite a sua senha",
+    "TipoUsuario_Jogador_Label": "Jogador",
+    "TipoUsuario_Profissional_Label": "Profissional",
+    "TipoUsuario_Acessibility_Label": "Escolha o Tipo de Usuário",
+    "HelpText_Senha": "São necessários, no mínimo, 6 caracteres."
+
+}
