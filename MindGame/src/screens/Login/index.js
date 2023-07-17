@@ -3,21 +3,20 @@ import logo from '../../../assets/logo.png';
 import estilos from './estilos';
 import text_login_index from '../../texts/text_login_index.json'
 import { Input, Box, Text, Image, Button} from 'native-base';
-import { AutenticationContext } from '../../contexts/AutenticationContext';
 import {errorAlert} from '../../components/errorAlert'
 import {Alert} from 'react-native'
+import { logar } from '../../services/auth';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Login({ navigation }) {
-  [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useContext(AutenticationContext)
-
-  function Logar(){
+  async function Logar(){
     setIsLoading(true);
-    setTimeout(() => {
-      const resultado = login(email, password)
+    const resultado = await logar(email, password);
+      console.log(resultado);
       if(resultado == 'ok'){
         navigation.navigate('Home');
       }
@@ -26,9 +25,11 @@ export default function Login({ navigation }) {
         Alert.alert(resultado)
       }
       setIsLoading(false);
-    }, 3000)
-
   };
+
+  function Cadastrar(){
+    navigation.navigate('Cadastrar');
+  }
 
 
   return <Box style={estilos.background}>
@@ -48,7 +49,9 @@ export default function Login({ navigation }) {
       </Box>
       <Box style={{flexDirection: 'row', marginTop: '5%', marginLeft: '15%'}}>
         <Text style={estilos.input_box_text}>{text_login_index.Sem_Conta}</Text>
-        <Text style={[estilos.input_box_text, {marginLeft: '2%', color: '#397DC9'}]}>{text_login_index.Cadastre_se}</Text>
+        <TouchableOpacity onPress={Cadastrar}>
+          <Text style={[estilos.input_box_text, {marginLeft: '2%', color: '#397DC9'}]}>{text_login_index.Cadastre_se}</Text>
+        </TouchableOpacity>
       </Box>
     </Box>
     <Button style={estilos.button} isLoading={isLoading} spinnerPlacement="end" isLoadingText="Carregando..." _text={{fontWeight: "bold"}} onPress={Logar}>Entrar</Button>

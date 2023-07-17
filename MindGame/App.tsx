@@ -2,28 +2,27 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { NativeBaseProvider } from 'native-base';
-import {SSRProvider} from '@react-aria/ssr'; 
-import { AutenticationProvider } from './src/contexts/AutenticationContext';
+import { GestureHandlerRootView  } from 'react-native-gesture-handler';
 
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
+import Cadastrar from './src/screens/Cadastro';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <AutenticationProvider>
-      <SSRProvider>
+    <NavigationContainer>
         <NativeBaseProvider>
-          <NavigationContainer>
+          <GestureHandlerRootView style={{ flex: 1 }}>
             <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Login'>
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Login" component={(Login)} />
+              <Stack.Screen name="Home" component={(Home)} />
+              <Stack.Screen name="Cadastrar" component={(Cadastrar)} />
             </Stack.Navigator>
-          </NavigationContainer>
+          </GestureHandlerRootView>
         </NativeBaseProvider>
-      </SSRProvider>
-    </AutenticationProvider>
+      </NavigationContainer>
   );
 };
 
