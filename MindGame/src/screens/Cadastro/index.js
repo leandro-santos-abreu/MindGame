@@ -24,8 +24,9 @@ export default function Cadastrar({ navigation }){
         if (verificarEntradaVazia(dados, setDados)){
             return;
         }
+
         setIsLoading(true);
-        const resultado = await cadastro(email, senha, tipoUsuario);
+        const resultado = await cadastro(dados.email, dados.senha, dados.tipoUsuario);
         console.log(resultado);
         if(resultado == 'ok'){
             navigation.navigate('Home');
