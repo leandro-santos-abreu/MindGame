@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import logo from '../../../assets/logo.png';
 import estilos from './estilos';
 import text_login_index from '../../texts/text_login_index.json'
@@ -7,14 +7,30 @@ import {errorAlert} from '../../components/errorAlert'
 import {Alert} from 'react-native'
 import { logar } from '../../services/auth';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { auth } from '../../config/firebase';
+
+import loading from "../../../assets/loading.gif"
 
 export default function Login({ navigation }) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingButton, setIsLoadingButton] = useState(false)
+  const [carregando, setCarregando] = useState(true)
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const estadoUsuario = auth.onAuthStateChanged(usuario => {
+      if (usuario){
+        navigation.replace("Home");
+      }
+      setCarregando(false)
+    });
+
+    return () => estadoUsuario();
+  },[])
+
   async function Logar(){
-    setIsLoading(true);
+    setIsLoadingButton(true);
     const resultado = await logar(email, password);
       console.log(resultado);
       if(resultado == 'ok'){
@@ -24,13 +40,20 @@ export default function Login({ navigation }) {
         //errorAlert(resultado)
         Alert.alert(resultado)
       }
-      setIsLoading(false);
+      setIsLoadingButton(false);
   };
 
   function Cadastrar(){
     navigation.navigate('Cadastrar');
   }
 
+  if (carregando){
+    return (
+      <Box style={estilos.containerAnimacao}>
+        <Image style={estilos.imagem} source={loading}></Image>
+      </Box>
+    )
+  }
 
   return <Box style={estilos.background}>
     <Box>
@@ -54,6 +77,6 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
       </Box>
     </Box>
-    <Button style={estilos.button} isLoading={isLoading} spinnerPlacement="end" isLoadingText="Carregando..." _text={{fontWeight: "bold"}} onPress={Logar}>Entrar</Button>
+    <Button style={estilos.button} isLoading={isLoadingButton} spinnerPlacement="end" isLoadingText="Carregando..." _text={{fontWeight: "bold"}} onPress={Logar}>Entrar</Button>
     </Box>
 }

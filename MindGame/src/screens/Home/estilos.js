@@ -7,6 +7,7 @@ export default StyleSheet.create({
         flexWrap: 'wrap', 
         alignItems: 'flex-start',
         flexDirection:'row',
+        
     },
     headerTextColumn: {
         flexDirection:'column',
@@ -26,7 +27,8 @@ export default StyleSheet.create({
         textAlign: "center",
         fontWeight: "bold",
         fontSize: 20,
-        marginTop: 25
+        marginTop: 25,
+        marginBottom: 25
     },
     imagem: {
         resizeMode:"contain"

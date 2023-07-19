@@ -2,6 +2,10 @@ import { Box } from 'native-base';
 import * as React from 'react';
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
 
+export const colors = [
+  "#397DC9",
+  "#397DC9"
+]
 
 export const PaginationItem: React.FC<{
     index: number;

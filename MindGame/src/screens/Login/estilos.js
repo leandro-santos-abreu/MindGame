@@ -36,5 +36,15 @@ export default StyleSheet.create({
         marginLeft: '20%',
         marginTop: '5%',
         backgroundColor: "#397DC9"
-    }
+    },
+    containerAnimacao:{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#F5DEA8",
+      },
+      imagem: {
+        height: 300,
+        width: 300
+      }
 })
