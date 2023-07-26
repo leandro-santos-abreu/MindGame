@@ -8,6 +8,9 @@ import {Alert} from 'react-native'
 import { logar } from '../../services/auth';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { auth } from '../../config/firebase';
+import { GlobalContext } from '../../contexts/GlobalContext';
+
+import { buscarUsuarioPorId } from '../../services/firestore';
 
 import loading from "../../../assets/loading.gif"
 
@@ -18,12 +21,24 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { definirTipoUsuario, buscarTipoUsuario } = useContext(GlobalContext);
+
+  async function AsyncBuscarUsuarioPorId(usuario){
+    const dadosUsuario = await buscarUsuarioPorId(usuario.uid);
+    return dadosUsuario;
+  }
+
   useEffect(() => {
     const estadoUsuario = auth.onAuthStateChanged(usuario => {
       if (usuario){
-        navigation.replace("Home");
+        AsyncBuscarUsuarioPorId(usuario).then((dados) => {
+          definirTipoUsuario(usuario, dados.TipoUsuario)
+          navigation.replace("Home");
+          setCarregando(false);
+        });
+      }else{
+        setCarregando(false);
       }
-      setCarregando(false)
     });
 
     return () => estadoUsuario();
@@ -50,7 +65,7 @@ export default function Login({ navigation }) {
   if (carregando){
     return (
       <Box style={estilos.containerAnimacao}>
-        <Image style={estilos.imagem} source={loading}></Image>
+        <Image alt='Carregando' style={estilos.imagem} source={loading}></Image>
       </Box>
     )
   }

@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Box, Image, Text, Icon } from 'native-base';
 import { Dimensions } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { auth } from '../../config/firebase';
 import { PaginationItem, colors } from '../../components/PaginationItem';
 import MaterialCommunityIcons  from "react-native-vector-icons/MaterialCommunityIcons"
-
 import estilos from './estilos';
 import { Dados } from './jogos';
 
@@ -15,12 +15,25 @@ import text_home_index from '../../texts/text_home_index.json'
 
 import { useSharedValue } from 'react-native-reanimated';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { GameModal } from '../../components/GameModal';
+
+import { GlobalContext } from '../../contexts/GlobalContext';
+import { TipoUsuarioEnum } from '../../enums/tipoUsuario.enum';
 
 export default function Home({ navigation }) {
 
   const width = Dimensions.get('window').width;
   const height = Dimensions.get('window').height;
   const progressValue = useSharedValue(0);
+
+  const [showModal, setShowModal] = useState(false);
+  const { buscarTipoUsuario } = useContext(GlobalContext);
+
+  var tipoUsuario = "";
+
+  useEffect(() => {
+    tipoUsuario = buscarTipoUsuario();
+  },[])
 
   function logout(){
     auth.signOut();
@@ -60,7 +73,7 @@ export default function Home({ navigation }) {
                     onSnapToItem={(index) => console.log('current index:', index)}
                     renderItem={({ item }) => (
                         <Box style={{verticalAlign: "middle", alignItems: 'center'}}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => { tipoUsuario == TipoUsuarioEnum.Profissional ? GameModal(item.jogo, showModal, setShowModal): navigation.navigate('Fases')}}>
                                 <Image alt={item.jogo} style={[{height: height * 0.65, width: width}, estilos.imagem]}source={item.imagem}></Image> 
                             </TouchableOpacity>
                         </Box>
