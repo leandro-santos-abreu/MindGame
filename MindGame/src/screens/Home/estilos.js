@@ -32,5 +32,10 @@ export default StyleSheet.create({
     },
     imagem: {
         resizeMode:"contain"
+    },
+    modal:{
+        backgroundColor: "#03377D",
+        width: 320,
+        height: 300
     }
 })

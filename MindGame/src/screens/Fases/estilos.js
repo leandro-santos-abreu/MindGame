@@ -17,5 +17,25 @@ export default StyleSheet.create({
     },
     imagens: {
         marginTop: 25,
+    },
+    botao:{
+        width: 80,
+        height: 40,
+        backgroundColor: "#94D8FF",
+        alignSelf: "center",
+        marginRight: 15,
+        borderRadius: 8,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        elevation: 6
+    },
+    texto_botao:{
+        textAlign: "center",
+    },
+    modal:{
+        backgroundColor: "#03377D",
+        width: 320,
+        height: 154
     }
 })

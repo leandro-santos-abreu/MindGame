@@ -9,6 +9,7 @@ import Home from './src/screens/Home';
 import Login from './src/screens/Login';
 import Cadastrar from './src/screens/Cadastro';
 import Fases from './src/screens/Fases';
+import Jogo from './src/screens/Jogo';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ const App = () => {
                   <Stack.Screen name="Home" component={(Home)} />
                   <Stack.Screen name="Cadastrar" component={(Cadastrar)} />
                   <Stack.Screen name="Fases" component={(Fases)} />
+                  <Stack.Screen name="Jogo" component={(Jogo)} />
                 </Stack.Navigator>
               </GestureHandlerRootView>
           </NativeBaseProvider>

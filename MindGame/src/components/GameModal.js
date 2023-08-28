@@ -1,6 +1,6 @@
 import React, { useState }  from "react"
 import { Center, Modal, Image, Box, Text, Button } from "native-base"
-import { buscarImagensPorJogo } from "../screens/Fases/fases_imagens";
+import { buscarImagensPorJogo } from "../utils/fases_imagens";
 
 export const GameModal = (jogo: string, showModal, setShowModal) => {
     const imagens = buscarImagensPorJogo(jogo);

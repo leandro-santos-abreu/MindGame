@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useContext, useEffect } from 'react';
-import { Box, Image, Text, Icon } from 'native-base';
+import { Box, Image, Text, Icon, Modal } from 'native-base';
 import { Dimensions } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { auth } from '../../config/firebase';
@@ -27,12 +27,11 @@ export default function Home({ navigation }) {
   const progressValue = useSharedValue(0);
 
   const [showModal, setShowModal] = useState(false);
+  const [tipoUsuario, setTipoUsuario] = useState("");
   const { buscarTipoUsuario } = useContext(GlobalContext);
 
-  var tipoUsuario = "";
-
   useEffect(() => {
-    tipoUsuario = buscarTipoUsuario();
+    setTipoUsuario(buscarTipoUsuario());
   },[])
 
   function logout(){
@@ -41,6 +40,15 @@ export default function Home({ navigation }) {
   }
 
   return  <Box style={{ flex: 1, backgroundColor: "#F5DEA8", fontFamily: "Inter-Regular" }}>
+
+    <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Content style={estilos.modal} maxWidth="320px" maxHeight="300px">
+            <Modal.Body>
+               
+            </Modal.Body>
+        </Modal.Content>
+    </Modal>
+
     <Box style={estilos.header}>
         <Image alt='Mind Game' style={estilos.icone} source={Logo}></Image>
         <Box style={estilos.headerTextColumn}>
@@ -73,8 +81,8 @@ export default function Home({ navigation }) {
                     onSnapToItem={(index) => console.log('current index:', index)}
                     renderItem={({ item }) => (
                         <Box style={{verticalAlign: "middle", alignItems: 'center'}}>
-                            <TouchableOpacity onPress={() => { tipoUsuario == TipoUsuarioEnum.Profissional ? GameModal(item.jogo, showModal, setShowModal): navigation.navigate('Fases')}}>
-                                <Image alt={item.jogo} style={[{height: height * 0.65, width: width}, estilos.imagem]}source={item.imagem}></Image> 
+                            <TouchableOpacity onPress={() => { tipoUsuario == TipoUsuarioEnum.Profissional ? setShowModal(true): navigation.navigate('Fases')}}>
+                                <Image alt={item.jogo} style={[{height: height * 0.65, width: width}, estilos.imagem]} source={item.imagem}></Image> 
                             </TouchableOpacity>
                         </Box>
                     )}

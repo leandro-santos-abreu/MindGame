@@ -1,3 +1,6 @@
 {
-    "Titulo": "Escolha a Fase"
+    "Titulo": "Escolha a Fase",
+    "Facil": "Fácil",
+    "Medio": "Médio",
+    "Dificil": "Difícil"
 }
