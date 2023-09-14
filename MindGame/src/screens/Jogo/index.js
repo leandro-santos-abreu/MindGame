@@ -1,4 +1,4 @@
-import { Box, FlatList, Flex, Image } from "native-base"
+import { Box, FlatList, Flex, Image, Text } from "native-base"
 import React, { useEffect, useState } from "react"
 import { ImageBackground, TouchableOpacity } from "react-native"
 import GameOptions from "../../models/GameOptions"
@@ -16,6 +16,7 @@ export default function Jogo({navigation, route}){
     const [difficultySettings, setDifficultySettings] = useState({QuantidadeImagens: undefined, Tempo: undefined});
     const [imagens, setImagens] = useState([]);
     const [objective, setObjective] = useState({Imagem: undefined, Animal: undefined});
+    const [tempo, setTempo] = useState(0);
 
     const carregarDados = () => {
       const gameOptions = new GameOptions(route.params.gameOptions.Dificuldade, route.params.gameOptions.Tema);
@@ -52,6 +53,7 @@ export default function Jogo({navigation, route}){
       imagensFase.push(escolha); //Setando Imagem Escolhida.
 
       setImagens(imagensFase);
+      setTempo(difficultySettings.Tempo);
 
       setUseEffectCompleted(true)
     }
@@ -59,6 +61,8 @@ export default function Jogo({navigation, route}){
     useEffect(() => {
         carregarDados();
     }, [useEffectCompleted])
+
+    
 
     if (globalDadosFase.Background == undefined){
         return (
@@ -71,7 +75,7 @@ export default function Jogo({navigation, route}){
     return <Box style={{flex: 1}}>
         <ImageBackground style={estilos.background} source={globalDadosFase.Background}> 
           <Box style={estilos.timer}>
-
+            <Text>{tempo}</Text>
           </Box>
           <Box style={estilos.floresta}>
             <Image alt={objective.Animal} style={{width: 100, height: 100}} source={objective.Imagem}></Image>

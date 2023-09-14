@@ -6,12 +6,12 @@ export const difficulty_settings = [
     },
     {
         Dificuldade: "Médio",
-        QuantidadeImagens: 60,
+        QuantidadeImagens: 45,
         Tempo: 40
     },
     {
         Dificuldade: "Difícil",
-        QuantidadeImagens: 90,
+        QuantidadeImagens: 60,
         Tempo: 20
     }
 ]
