@@ -1,7 +1,12 @@
-import { Wrap } from "native-base";
+import { Center } from "native-base";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+    background:{
+        flex: 1,
+        backgroundColor: "#F5DEA8",
+        fontFamily: "Inter-Regular"
+    },
     header: {
         backgroundColor: "#397DC9",
         padding: 10,
@@ -24,26 +29,32 @@ export default StyleSheet.create({
         borderRadius: 0.5 * 60
     },
     titles:{
-        color: '#397DC9',
+        color: '#000000',
         textAlign: "center",
         fontWeight: "bold",
-        fontSize: 20,
-        marginTop: 25,
+        fontSize: 18,
+        marginTop: 30,
+        marginBottom: 30
+    },
+    box:{
+        backgroundColor: '#ffffff',
+        width: 320,
+        height: 70,
+        alignSelf: "center",
+        borderRadius: 5,
+        shadowColor: 'black',
         marginBottom: 25
     },
     imagem: {
         resizeMode:"contain"
     },
-    modal:{
-        backgroundColor: "#03377D",
+    Button:{
         width: 320,
-        height: 300
-    },
-    flexContainer: {
-        flexWrap: 'wrap', 
-        alignItems: 'flex-start',
-        flexDirection:'row',
+        height: 60,
+        alignSelf: "center",
+        borderRadius: 5,
+        shadowColor: 'black',
         marginTop: 20,
-        marginLeft: 135
+        backgroundColor: "#397DC9"
     }
 })

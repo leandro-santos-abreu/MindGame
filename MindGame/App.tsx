@@ -10,6 +10,8 @@ import Login from './src/screens/Login';
 import Cadastrar from './src/screens/Cadastro';
 import Fases from './src/screens/Fases';
 import Jogo from './src/screens/Jogo';
+import ListaPaciente from './src/screens/ListaPaciente';
+import CadastrarPaciente from './src/screens/CadastrarPaciente';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +27,8 @@ const App = () => {
                   <Stack.Screen name="Cadastrar" component={(Cadastrar)} />
                   <Stack.Screen name="Fases" component={(Fases)} />
                   <Stack.Screen name="Jogo" component={(Jogo)} />
+                  <Stack.Screen name="ListaPaciente" component={(ListaPaciente)} />
+                  <Stack.Screen name="CadastrarPaciente" component={(CadastrarPaciente)} />
                 </Stack.Navigator>
               </GestureHandlerRootView>
           </NativeBaseProvider>
