@@ -56,7 +56,7 @@ export default function Home({ navigation }) {
                 <Text style={[estilos.headerText, { fontSize: 15 }]}>{auth.currentUser.email}</Text>
             </Box>
             <Box style={estilos.flexContainer}>
-                    <Icon as={<MaterialCommunityIcons name={"account-details"} onPress={()=>{navigation.navigate('ListaPaciente')}} />} size={6} mr="2" color="#F5F2E6" />
+                    {tipoUsuario == "Jogador" ? null : <Icon as={<MaterialCommunityIcons name={"account-details"} onPress={()=>{navigation.navigate('ListaPaciente')}} />} size={6} mr="2" color="#F5F2E6" />}
                     <Icon as={<MaterialCommunityIcons name={"logout"} onPress={logout} />} size={6} mr="2" color="#F5F2E6" />
                 
             </Box>

@@ -56,5 +56,11 @@ export default StyleSheet.create({
         shadowColor: 'black',
         marginTop: 20,
         backgroundColor: "#397DC9"
-    }
+    },
+    containerAnimacao:{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#F5DEA8",
+      }
 })

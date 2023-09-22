@@ -41,10 +41,23 @@ export default StyleSheet.create({
         width: 100,
         height: 30,
         backgroundColor: '#EAEAEA',
-        margin: 10,
+        margin: 20,
         alignSelf: "flex-end",
         borderRadius: 5,
         elevation: 6,
-        borderColor: "#000000"
+        borderColor: "#000000",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    modal:{
+        backgroundColor: "green",
+        width: 320,
+        height: 300
+    },
+    button:{
+        padding: 20,
+        backgroundColor: "green",
+        width: 300,
+        height: 70,
     }
 })

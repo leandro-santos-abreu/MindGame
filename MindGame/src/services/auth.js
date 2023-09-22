@@ -29,11 +29,13 @@ export async function cadastro(email, senha, tipoUsuario): string{
     try{
         const dadosUsuario = await createUserWithEmailAndPassword(auth, email, senha);
         if (dadosUsuario.user){
-            const user = new UserModel(dadosUsuario.user.uid, valueToEnum(tipoUsuario));
+            const user = new UserModel(dadosUsuario.user.uid, valueToEnum(tipoUsuario), email);
             const retorno = await salvarUsuario(user);
             return retorno
+        }else{
+            throw Error("Erro ao Cadastrar Autenticação");
         }
-    }catch{
+    }catch(error){
         console.log(error);
         console.log(dadosUsuario.user);
         deleteUser(dadosUsuario.user);
