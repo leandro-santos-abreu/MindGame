@@ -20,8 +20,7 @@ export async function salvarPaciente(profissionalId: string, emailPaciente: stri
           });
 
         return "ok"
-
-
+        
     } catch(error){
         console.log("Erro add paciente:", error)
         return "erro";
