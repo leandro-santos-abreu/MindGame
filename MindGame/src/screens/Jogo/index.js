@@ -28,6 +28,8 @@ export default function Jogo({navigation, route}){
     const [vitoria, setVitoria] = useState(false);
     const [somVitoria, setSomVitoria] = useState();
     const [somErro, setSomErro] = useState();
+    const [quantErros, setQuantErros] = useState();
+    const [quantAcertos, setQuantAcertos] = useState();
 
     const carregarDados = () => {
       Sound.setCategory("Playback");
@@ -163,6 +165,6 @@ export default function Jogo({navigation, route}){
       }
 
       somErro.play();
-
+      
     }
 }

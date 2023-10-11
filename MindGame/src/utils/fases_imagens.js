@@ -12,14 +12,50 @@ import OceanoBackground from '../../assets/fases/fase_caca_figura_oceano_backgro
 import { TemasEnum } from '../enums/temas.enum';
 
 import cobra from '../../assets/fases/floresta/cobra.png';
-import coelho from '../../assets/fases/floresta/coelho.png';
-import gorila from '../../assets/fases/floresta/gorila.png';
-import koala from '../../assets/fases/floresta/koala.png';
-import lobo from '../../assets/fases/floresta/lobo.png';
+import coelho1 from '../../assets/fases/floresta/coelho1.png';
+import coelho2 from '../../assets/fases/floresta/coelho2.png';
+import coelho3 from '../../assets/fases/floresta/coelho3.png';
+import gorila1 from '../../assets/fases/floresta/gorila1.png';
+import gorila2 from '../../assets/fases/floresta/gorila2.png';
+import gorila3 from '../../assets/fases/floresta/gorila3.png';
+import coala1 from '../../assets/fases/floresta/coala1.png';
+import coala2 from '../../assets/fases/floresta/coala2.png';
+import coala3 from '../../assets/fases/floresta/coala3.png';
+import lobo1 from '../../assets/fases/floresta/lobo1.png';
+import lobo2 from '../../assets/fases/floresta/lobo2.png';
+import lobo3 from '../../assets/fases/floresta/lobo3.png';
 import macaco from '../../assets/fases/floresta/macaco.png';
 import panda from '../../assets/fases/floresta/panda.png';
-import raposa from '../../assets/fases/floresta/raposa.png';
+import raposa1 from '../../assets/fases/floresta/raposa1.png';
+import raposa2 from '../../assets/fases/floresta/raposa2.png';
+import raposa3 from '../../assets/fases/floresta/raposa3.png';
 import urso from '../../assets/fases/floresta/urso.png';
+import passaro1 from '../../assets/fases/floresta/passaro1.png';
+import passaro2 from '../../assets/fases/floresta/passaro2.png';
+import passaro3 from '../../assets/fases/floresta/passaro3.png';
+
+
+import balde from '../../assets/fases/praia/balde.png';
+import chinelo1 from '../../assets/fases/praia/chinelo1.png';
+import chinelo2 from '../../assets/fases/praia/chinelo2.png';
+import chinelo3 from '../../assets/fases/praia/chinelo3.png';
+import coco1 from '../../assets/fases/praia/coco1.png';
+import coco2 from '../../assets/fases/praia/coco2.png';
+import coco3 from '../../assets/fases/praia/coco3.png';
+import concha from '../../assets/fases/praia/concha.png';
+import guarda1 from '../../assets/fases/praia/guarda1.png';
+import guarda2 from '../../assets/fases/praia/guarda2.png';
+import guarda3 from '../../assets/fases/praia/guarda3.png';
+import oculos1 from '../../assets/fases/praia/oculos1.png';
+import oculos2 from '../../assets/fases/praia/oculos2.png';
+import oculos3 from '../../assets/fases/praia/oculos3.png';
+import picole from '../../assets/fases/praia/picole.png';
+import sol1 from '../../assets/fases/praia/sol1.png';
+import sol2 from '../../assets/fases/praia/sol2.png';
+import sol3 from '../../assets/fases/praia/sol3.png';
+import surf1 from '../../assets/fases/praia/surf1.png';
+import surf2 from '../../assets/fases/praia/surf2.png';
+import surf3 from '../../assets/fases/praia/surf3.png';
 
 
 
@@ -37,20 +73,52 @@ export const fases_imagens = [
                 Animal: "Cobra"
             },
             {
-                Imagem: coelho,
-                Animal: "Coelho"
+                Imagem: coelho1,
+                Animal: "Coelho1"
             },
             {
-                Imagem: gorila,
-                Animal: "Gorila"
+                Imagem: coelho2,
+                Animal: "Coelho2"
             },
             {
-                Imagem: koala,
-                Animal: "Koala"
+                Imagem: coelho3,
+                Animal: "Coelho3"
             },
             {
-                Imagem: lobo,
-                Animal: "Lobo"
+                Imagem: gorila1,
+                Animal: "Gorila1"
+            },
+            {
+                Imagem: gorila2,
+                Animal: "Gorila2"
+            },
+            {
+                Imagem: gorila3,
+                Animal: "Gorila3"
+            },
+            {
+                Imagem: coala1,
+                Animal: "Coala1"
+            },
+            {
+                Imagem: coala2,
+                Animal: "Coala2"
+            },
+            {
+                Imagem: coala3,
+                Animal: "Coala3"
+            },
+            {
+                Imagem: lobo1,
+                Animal: "Lobo1"
+            },
+            {
+                Imagem: lobo2,
+                Animal: "Lobo2"
+            },
+            {
+                Imagem: lobo3,
+                Animal: "Lobo3"
             },
             {
                 Imagem: macaco,
@@ -61,12 +129,32 @@ export const fases_imagens = [
                 Animal: "Panda"
             },
             {
-                Imagem: raposa,
-                Animal: "Raposa"
+                Imagem: raposa1,
+                Animal: "Raposa1"
+            },
+            {
+                Imagem: raposa2,
+                Animal: "Raposa2"
+            },
+            {
+                Imagem: raposa3,
+                Animal: "Raposa3"
             },
             {
                 Imagem: urso,
                 Animal: "Urso"
+            },
+            {
+                Imagem: passaro1,
+                Animal: "Passaro1"
+            },
+            {
+                Imagem: passaro2,
+                Animal: "Passaro2"
+            },
+            {
+                Imagem: passaro3,
+                Animal: "Passaro3"
             }
         ]
     },
@@ -76,7 +164,93 @@ export const fases_imagens = [
         Tema: TemasEnum.Praia,
         Jogo: "Caça Figuras",
         Imagem: Praia,
-        Background: PraiaBackground
+        Background: PraiaBackground,
+        IconesSelecionaveis: [
+            {
+                Imagem: balde,
+                Animal: "Balde"
+            },
+            {
+                Imagem: chinelo1,
+                Animal: "Chinelo1"
+            },
+            {
+                Imagem: chinelo2,
+                Animal: "Chinelo2"
+            },
+            {
+                Imagem: chinelo3,
+                Animal: "Chinelo3"
+            },
+            {
+                Imagem: coco1,
+                Animal: "Coco1"
+            },
+            {
+                Imagem: coco2,
+                Animal: "Coco2"
+            },
+            {
+                Imagem: coco3,
+                Animal: "Coco3"
+            },
+            {
+                Imagem: guarda1,
+                Animal: "Guarda1"
+            },
+            {
+                Imagem: guarda2,
+                Animal: "Guarda2"
+            },
+            {
+                Imagem: guarda3,
+                Animal: "Guarda3"
+            },
+            {
+                Imagem: oculos1,
+                Animal: "Oculos1"
+            },
+            {
+                Imagem: oculos2,
+                Animal: "Oculos2"
+            },
+            {
+                Imagem: oculos3,
+                Animal: "Oculos3"
+            },
+            {
+                Imagem: picole,
+                Animal: "Picole"
+            },
+            {
+                Imagem: sol1,
+                Animal: "Sol1"
+            },
+            {
+                Imagem: sol2,
+                Animal: "Sol2"
+            },
+            {
+                Imagem: sol3,
+                Animal: "Sol3"
+            },
+            {
+                Imagem: surf1,
+                Animal: "Surf1"
+            },
+            {
+                Imagem: surf2,
+                Animal: "Surf2"
+            },
+            {
+                Imagem: surf3,
+                Animal: "Surf3"
+            },
+            {
+                Imagem: concha,
+                Animal: "Concha"
+            }
+        ]
     },
     {
         Id: 2,
