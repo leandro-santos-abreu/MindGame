@@ -32,7 +32,8 @@ export default function Jogo({navigation, route}){
     const [somVitoria, setSomVitoria] = useState();
     const [somErro, setSomErro] = useState();
     const [quantidadeCliques, setQuantidadeCliques] = useState(0);
-    const [gameData, setGameData] = useState(new GameData(undefined, undefined, undefined, undefined, undefined));
+    const [tempoPrimeiroClique, setTempoPrimeiroClique] = useState(0);
+    const [gameData, setGameData] = useState(new GameData(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
 
 
     const carregarDados = () => {
@@ -172,13 +173,18 @@ export default function Jogo({navigation, route}){
     
     function ValidaClique(item){
       setQuantidadeCliques(quantidadeCliques + 1)
+
+      if (quantidadeCliques === 1){
+        setTempoPrimeiroClique(tempo)
+      }
+
       if (item.Animal === objective.Animal){
         console.log("Vitoria");
         setVitoria(true);
         setFimJogo(true);
         somVitoria.play();
 
-        const summary = new GameData(globalGameOptions.Dificuldade, globalDadosFase.Jogo, globalGameOptions.Tema, difficultySettings.Tempo - tempo, quantidadeCliques + 1, auth.currentUser.uid)
+        const summary = new GameData(globalGameOptions.Dificuldade, globalDadosFase.Jogo, globalGameOptions.Tema, difficultySettings.Tempo - tempo, quantidadeCliques + 1, auth.currentUser.uid, difficultySettings.Tempo - tempoPrimeiroClique, new Date().toLocaleString('pt-BR'))
         setGameData(summary);
         CadastrarPartida(summary);
 

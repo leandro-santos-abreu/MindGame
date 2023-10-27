@@ -7,14 +7,18 @@ export default class GameData{
     TempoDuracao: Number;
     QuantidadeCliques: Number;
     JogadorId: string;
+    TempoPrimeiroClique: Number;
+    DataInicio: Date;
     
-    constructor(Dificuldade, Jogo, Tema, TempoDuracao, QuantidadeCliques, JogadorId) {
+    constructor(Dificuldade, Jogo, Tema, TempoDuracao, QuantidadeCliques, JogadorId, TempoPrimeiroClique, DataInicio) {
         this.Dificuldade = Dificuldade,
         this.Jogo = Jogo
         this.Tema = Tema,
         this.TempoDuracao = TempoDuracao,
         this.QuantidadeCliques = QuantidadeCliques,
-        this.JogadorId = JogadorId
+        this.JogadorId = JogadorId,
+        this.TempoPrimeiroClique = TempoPrimeiroClique,
+        this.DataInicio = DataInicio
     }
 
     toJSON() {
@@ -24,7 +28,9 @@ export default class GameData{
             Tema: this.Tema,
             TempoDuracao: this.TempoDuracao,
             QuantidadeCliques: this.QuantidadeCliques,
-            JogadorId: this.JogadorId
+            JogadorId: this.JogadorId,
+            TempoPrimeiroClique: this.TempoPrimeiroClique,
+            DataInicio: this.DataInicio
         };
     }
 }

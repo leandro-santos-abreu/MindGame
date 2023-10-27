@@ -48,9 +48,10 @@ export default StyleSheet.create({
     },
     caixaPartidas: {
         padding: 11,
-        backgroundColor: "#FFFFFF",
-        marginBottom: 5,
-        width: 180,
+        backgroundColor: "#95d8fe",
+        marginTop: 5,
+        marginRight: 5,
+        width: 190,
         borderRadius: 10
     },
     iconeFases: {

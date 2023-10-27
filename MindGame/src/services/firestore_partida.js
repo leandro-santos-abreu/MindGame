@@ -25,7 +25,7 @@ export async function buscarPartidaDeJogadorIdPorTema(jogadorId: string, tema: T
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach((doc) => {
-            partidas.push(new GameData(doc.data().Dificuldade, doc.data().Jogo, doc.data().Tema, doc.data().TempoDuracao, doc.data().QuantidadeCliques, doc.data().JogadorId));
+            partidas.push(new GameData(doc.data().Dificuldade, doc.data().Jogo, doc.data().Tema, doc.data().TempoDuracao, doc.data().QuantidadeCliques, doc.data().JogadorId, doc.data().TempoPrimeiroClique, doc.data().DataInicio));
         });
 
         setDadosJogador(partidas);
