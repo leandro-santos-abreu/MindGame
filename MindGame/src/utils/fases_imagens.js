@@ -58,6 +58,33 @@ import surf2 from '../../assets/fases/praia/surf2.png';
 import surf3 from '../../assets/fases/praia/surf3.png';
 
 
+import caranguejo1 from '../../assets/fases/oceano/caranguejo1.png';
+import caranguejo2 from '../../assets/fases/oceano/caranguejo2.png';
+import caranguejo3 from '../../assets/fases/oceano/caranguejo3.png';
+import estrela1 from '../../assets/fases/oceano/estrela1.png';
+import estrela2 from '../../assets/fases/oceano/estrela2.png';
+import estrela3 from '../../assets/fases/oceano/estrela3.png';
+import golfinho1 from '../../assets/fases/oceano/golfinho1.png';
+import golfinho2 from '../../assets/fases/oceano/golfinho2.png';
+import golfinho3 from '../../assets/fases/oceano/golfinho3.png';
+import lula1 from '../../assets/fases/oceano/lula1.png';
+import lula2 from '../../assets/fases/oceano/lula2.png';
+import lula3 from '../../assets/fases/oceano/lula3.png';
+import peixe1 from '../../assets/fases/oceano/peixe1.png';
+import peixe2 from '../../assets/fases/oceano/peixe2.png';
+import peixe3 from '../../assets/fases/oceano/peixe3.png';
+import planta1 from '../../assets/fases/oceano/planta1.png';
+import planta2 from '../../assets/fases/oceano/planta2.png';
+import planta3 from '../../assets/fases/oceano/planta3.png';
+import planta4 from '../../assets/fases/oceano/planta4.png';
+import tartaruga1 from '../../assets/fases/oceano/tartaruga1.png';
+import tartaruga2 from '../../assets/fases/oceano/tartaruga2.png';
+import tartaruga3 from '../../assets/fases/oceano/tartaruga3.png';
+import tubarao1 from '../../assets/fases/oceano/tubarao1.png';
+import tubarao2 from '../../assets/fases/oceano/tubarao2.png';
+import tubarao3 from '../../assets/fases/oceano/tubarao3.png';
+import kurage from '../../assets/fases/oceano/kurage.png';
+
 
 export const fases_imagens = [
     {
@@ -258,7 +285,113 @@ export const fases_imagens = [
         Tema: TemasEnum.Oceano,
         Jogo: "Caça Figuras",
         Imagem: Oceano,
-        Background: OceanoBackground
+        Background: OceanoBackground,
+        IconesSelecionaveis: [
+            {
+                Imagem: kurage,
+                Animal: "Kurage"
+            },
+            {
+                Imagem: caranguejo1,
+                Animal: "Caranguejo1"
+            },
+            {
+                Imagem: caranguejo2,
+                Animal: "Caranguejo2"
+            },
+            {
+                Imagem: caranguejo3,
+                Animal: "Caranguejo3"
+            },
+            {
+                Imagem: estrela1,
+                Animal: "Estrela1"
+            },
+            {
+                Imagem: estrela2,
+                Animal: "Estrela2"
+            },
+            {
+                Imagem: estrela3,
+                Animal: "Estrela3"
+            },
+            {
+                Imagem: golfinho1,
+                Animal: "Golfinho1"
+            },
+            {
+                Imagem: golfinho2,
+                Animal: "Golfinho2"
+            },
+            {
+                Imagem: golfinho3,
+                Animal: "Golfinho3"
+            },
+            {
+                Imagem: lula1,
+                Animal: "Lula1"
+            },
+            {
+                Imagem: lula2,
+                Animal: "Lula2"
+            },
+            {
+                Imagem: lula3,
+                Animal: "Lula3"
+            },
+            {
+                Imagem: peixe1,
+                Animal: "Peixe1"
+            },
+            {
+                Imagem: peixe2,
+                Animal: "Peixe2"
+            },
+            {
+                Imagem: peixe3,
+                Animal: "Peixe3"
+            },
+            {
+                Imagem: planta1,
+                Animal: "Planta1"
+            },
+            {
+                Imagem: planta2,
+                Animal: "Planta2"
+            },
+            {
+                Imagem: planta3,
+                Animal: "Planta3"
+            },
+            {
+                Imagem: planta4,
+                Animal: "Planta4"
+            },
+            {
+                Imagem: tartaruga2,
+                Animal: "Tartaruga2"
+            },
+            {
+                Imagem: tartaruga3,
+                Animal: "Tartaruga3"
+            },
+            {
+                Imagem: tartaruga3,
+                Animal: "Tartaruga3"
+            },
+            {
+                Imagem: tubarao1,
+                Animal: "Tubarao1"
+            },
+            {
+                Imagem: tubarao2,
+                Animal: "Tubarao2"
+            },
+            {
+                Imagem: tubarao3,
+                Animal: "Tubarao3"
+            }
+        ]
     }
 ]
 
