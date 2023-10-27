@@ -1,24 +1,27 @@
 import * as React from 'react';
 import { useState, useContext, useEffect } from 'react';
-import { Box, Image, Text, Icon, Modal } from 'native-base';
-import { Dimensions } from 'react-native';
+import { Box, Image, Text, Icon, Modal, FlatList, View } from 'native-base';
+import { Dimensions, SafeAreaView, TouchableOpacity } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { auth } from '../../config/firebase';
 import { PaginationItem, colors } from '../../components/PaginationItem';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import estilos from './estilos';
 import { Dados } from './jogos';
+import { fases_imagens } from '../../utils/fases_imagens'; 
 
 import Logo from '../../../assets/logo.png';
 
 import text_home_index from '../../texts/text_home_index.json'
 
 import { useSharedValue } from 'react-native-reanimated';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { GameModal } from '../../components/GameModal';
 
 import { GlobalContext } from '../../contexts/GlobalContext';
 import { TipoUsuarioEnum } from '../../enums/tipoUsuario.enum';
+import { valueToEnum } from '../../enums/temas.enum';
+
+import { buscarPartidaDeJogadorIdPorTema } from '../../services/firestore_partida';
+import GameData from '../../models/GameData';
 
 export default function Home({ navigation }) {
 
@@ -28,23 +31,101 @@ export default function Home({ navigation }) {
 
     const [showModal, setShowModal] = useState(false);
     const [tipoUsuario, setTipoUsuario] = useState("");
-    const { buscarTipoUsuario } = useContext(GlobalContext);
+    const [idPaciente, setIdPaciente] = useState("");
+    const [itemEscolhido, setItemEscolhido] = useState({Id: 0, Icone: undefined, Tema: "", Jogo: "", Imagem: undefined, Background: undefined, IconesSelecionaveis: []})
+    const [dadosJogador, setDadosJogador] = useState([]);
+    const [dadosFaseJogador, setDadosFaseJogador] = useState(new GameData(undefined, undefined, undefined, undefined, undefined, undefined));
+    const { buscarTipoUsuario, buscarIdPaciente } = useContext(GlobalContext);
+    
 
     useEffect(() => {
+        setItemEscolhido("")
+        setDadosFaseJogador(new GameData(undefined, undefined, undefined, undefined, undefined, undefined))
         setTipoUsuario(buscarTipoUsuario());
-    }, [])
+        setIdPaciente(buscarIdPaciente());
+    }, [showModal])
 
     function logout() {
         auth.signOut();
         navigation.replace("Login");
     }
 
+    async function exibirDadosJogador(item){
+        const temaEnum = valueToEnum(item.Tema)
+        await buscarPartidaDeJogadorIdPorTema(idPaciente, temaEnum, setDadosJogador);
+
+        setItemEscolhido(item)
+    }
+
+    function exibirDadosFaseJogador(dadosFase: GameData){
+        setDadosFaseJogador(dadosFase)
+    }
+
     return <Box style={{ flex: 1, backgroundColor: "#F5DEA8", fontFamily: "Inter-Regular" }}>
 
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
             <Modal.Content style={estilos.modal} maxWidth="320px" maxHeight="300px">
-                <Modal.Body>
 
+                <Modal.Body>
+                    { 
+                        itemEscolhido.Id === undefined ? 
+                            <FlatList
+                                    horizontal
+                                    contentContainerStyle={{flexDirection: 'row', alignItems: "center", justifyContent: "center", margin: 5}} 
+                                    data={fases_imagens}
+                                    keyExtractor={item => item.Id}
+                                    renderItem={({item}) => {
+                                        return (
+                                            <Box>
+                                                <TouchableOpacity onPress={() => exibirDadosJogador(item)} style={estilos.iconeFases}>
+                                                    <Image alt={item.Tema} source={item.Icone}></Image>
+                                                </TouchableOpacity>
+                                            </Box>
+                                            )
+                            }}/> 
+
+                        : dadosFaseJogador.Tema === undefined ?
+                                <Box style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                                    <Image alt={itemEscolhido.Tema} source={itemEscolhido.Icone} style={{marginTop: 25, marginLeft: 5}}></Image>
+                                    <FlatList 
+                                    
+                                                        contentContainerStyle={{flexDirection: 'column', alignItems: "flex-end", justifyContent: "center", margin: 5, marginTop: 25}} 
+                                                        data={dadosJogador}
+                                                        keyExtractor={item => item.Id}
+                                                        renderItem={({item}) => {
+                                                            return (
+                                                                <Box>
+                                                                    <TouchableOpacity onPress={() => exibirDadosFaseJogador(item)} style={estilos.caixaPartidas}>
+                                                                        <Text>{item.Dificuldade}</Text>
+                                                                    </TouchableOpacity>
+                                                                </Box>
+                                                                )
+                                    }}/> 
+                                </Box>
+                            :
+                                <Box>
+                                    <Text style={estilos.modalDadosTitulo}>{text_home_index.Resumo}</Text>
+                                    <Box style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                                        <Image alt={itemEscolhido.Tema} source={itemEscolhido.Icone} style={{margin: 5}}></Image>
+                                        <Box style={{margin: 10}}>
+                                            {console.log(dadosJogador.QuantidadeCliques)}
+                                            <Text style={estilos.modalDadosTexto}>{text_home_index.NumeroErros}</Text>
+                                            <Text style={[estilos.modalDadosTexto, {marginBottom: 15}]}>{dadosFaseJogador.QuantidadeCliques == 1 ? 0 : dadosFaseJogador.QuantidadeCliques - 1} Erro(s)</Text>
+
+                                            <Text style={estilos.modalDadosTexto}>{text_home_index.NumeroCliques}</Text>
+                                            <Text style={[estilos.modalDadosTexto, {marginBottom: 15}]}>{dadosFaseJogador.QuantidadeCliques} Clique(s)</Text>
+
+                                            <Text style={estilos.modalDadosTexto}>{text_home_index.TempoConclusao}</Text>
+                                            <Text style={[estilos.modalDadosTexto, {marginBottom: 15}]}>{dadosFaseJogador.TempoDuracao}s</Text>
+
+                                            <Text style={estilos.modalDadosTexto}>{text_home_index.TempoPrimeiroClique}</Text>
+                                            <Text style={[estilos.modalDadosTexto, {marginBottom: 15}]}>{dadosFaseJogador.TempoDuracao}s</Text>
+
+                                        </Box>
+                                    </Box>
+                                </Box>
+                    }                   
+                    
                 </Modal.Body>
             </Modal.Content>
         </Modal>

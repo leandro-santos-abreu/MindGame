@@ -4,6 +4,7 @@ export const GlobalContext = createContext({})
 
 export function UserInfoProvider( {children} ) {
   const [TipoUsuario, setTipoUsuario] = useState("Jogador")
+  const [IdPaciente, setIdPaciente] = useState("")
 
   function definirTipoUsuario(usuario, tipoUsuario){
     if(usuario){
@@ -15,6 +16,20 @@ export function UserInfoProvider( {children} ) {
     }
   }
 
+  function definirIdPaciente(pacienteId: string){
+    if(pacienteId){
+      setIdPaciente(pacienteId)
+      return 'ok'
+    }
+    else {
+      return 'Falha ao Definir IdPaciente'
+    }
+  }
+
+  function buscarIdPaciente(){
+    return IdPaciente;
+  }
+
   function buscarTipoUsuario(){
     return TipoUsuario;
   }
@@ -22,7 +37,9 @@ export function UserInfoProvider( {children} ) {
   return (
     <GlobalContext.Provider value={{
         definirTipoUsuario,
-        buscarTipoUsuario
+        buscarTipoUsuario,
+        definirIdPaciente,
+        buscarIdPaciente
     }}>
       {children}
     </GlobalContext.Provider>

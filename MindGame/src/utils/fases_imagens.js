@@ -1,9 +1,12 @@
 import { Image } from 'native-base';
-import fase_caca_figura_floresta from '../../assets/fases/fase_caca_figura_floresta_icon.png'
 
 import Floresta from '../../assets/fases/fase_caca_figura_floresta.png';
 import Praia from '../../assets/fases/fase_caca_figura_praia.png';
 import Oceano from '../../assets/fases/fase_caca_figura_oceano.png';
+
+import FlorestaIcon from '../../assets/fases/fase_caca_figura_floresta_icon.png';
+import PraiaIcon from '../../assets/fases/fase_caca_figura_praia_icon.png';
+import OceanoIcon from '../../assets/fases/fase_caca_figura_oceano_icon.png';
 
 import FlorestaBackground from '../../assets/fases/fase_caca_figura_floresta_background.png';
 import PraiaBackground from '../../assets/fases/fase_caca_figura_praia_background.png';
@@ -62,7 +65,7 @@ import surf3 from '../../assets/fases/praia/surf3.png';
 export const fases_imagens = [
     {
         Id: 0,
-        Icone: fase_caca_figura_floresta,
+        Icone: FlorestaIcon,
         Tema: TemasEnum.Floresta,
         Jogo: "Caça Figuras",
         Imagem: Floresta,
@@ -160,7 +163,7 @@ export const fases_imagens = [
     },
     {
         Id: 1,
-        Icone: "",
+        Icone: PraiaIcon,
         Tema: TemasEnum.Praia,
         Jogo: "Caça Figuras",
         Imagem: Praia,
@@ -254,7 +257,7 @@ export const fases_imagens = [
     },
     {
         Id: 2,
-        Icone: "",
+        Icone: OceanoIcon,
         Tema: TemasEnum.Oceano,
         Jogo: "Caça Figuras",
         Imagem: Oceano,

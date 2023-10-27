@@ -4,6 +4,6 @@ export const TemasEnum = {
     Oceano: "Oceano"
 }
 
-export function valueToEnum(value: string){
+export function valueToEnum(value: string): TemasEnum{
     return TemasEnum[value];
 }

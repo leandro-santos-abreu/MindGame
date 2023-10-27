@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Box, Image, Text, Input, Select, CheckIcon, Button, FormControl, Pressable, Icon, WarningOutlineIcon, FlatList } from "native-base";
 import text_listar_paciente_index from '../../texts/text_listar_paciente_index.json'
 import estilos from "./estilos"
@@ -13,15 +13,23 @@ import { auth } from '../../config/firebase';
 import { buscarPacientesPorProfissionalId } from "../../services/firestore_profissional";
 import loading from "../../../assets/loading.gif"
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { GlobalContext } from "../../contexts/GlobalContext";
 
 export default function ListaPaciente({ navigation }) {
     const [pacientes, setPacientes] = useState([{Email: undefined, Id: undefined, ProfissionalId: undefined, TipoUsuario: undefined}]);  
     const [useEffectCompleted, setUseEffectCompleted] = useState(false);
 
+    const { definirIdPaciente } = useContext(GlobalContext);
+
     const carregarDados = () => {
         const retorno = buscarPacientesPorProfissionalId(auth.currentUser.uid)
             .then((pacientes) => setPacientes(pacientes))
             .then(setUseEffectCompleted(true));
+    }
+
+    function selecionarPaciente(item){
+        definirIdPaciente(item.Id);
+        navigation.navigate("Home");
     }
 
     useEffect(() => {
@@ -52,14 +60,15 @@ export default function ListaPaciente({ navigation }) {
                     data={pacientes}
                     renderItem={({item}) => {
                         return (
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => selecionarPaciente(item)}>
                         <Box style={estilos.box}>
                                 <Text style={{marginLeft: 20, marginTop: 15} }>{item.Email}</Text>
                                 <Text style={{marginLeft: 20} }>{item.TipoUsuario}</Text>
                         </Box>
                         </TouchableOpacity>
                     )}}
-                    keyExtractor={(item, index) => index.toString()}
+                    keyExtractor={(item, index) => index.toString()
+                    }
             />
             <Button style={estilos.Button} onPress={()=>{navigation.navigate('CadastrarPaciente')}}>{text_listar_paciente_index.Cadastrar_Paciente}</Button>
         </Box>        

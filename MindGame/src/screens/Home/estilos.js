@@ -45,5 +45,32 @@ export default StyleSheet.create({
         flexDirection:'row',
         marginTop: 20,
         marginLeft: 135
+    },
+    caixaPartidas: {
+        padding: 11,
+        backgroundColor: "#FFFFFF",
+        marginBottom: 5,
+        width: 180,
+        borderRadius: 10
+    },
+    iconeFases: {
+        width: 82,
+        height: 90,
+        marginLeft: 8
+    },
+    modalDadosTitulo:{
+        color: "#FFFFFF",
+        fontSize: 20,
+        fontStyle: "normal",
+        fontWeight: 700,
+        lineHeight: 20,
+        marginLeft: 145
+    },
+    modalDadosTexto: {
+        color: "#FFFFFF",
+        fontSize: 13,
+        fontStyle: "normal",
+        fontWeight: 500,
+        marginLeft: 5
     }
 })

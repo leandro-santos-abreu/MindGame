@@ -20,6 +20,7 @@ export default function Login({ navigation }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [tipoUsuario, setTipoUsuario] = useState("")
 
   const { definirTipoUsuario, buscarTipoUsuario } = useContext(GlobalContext);
 
@@ -30,10 +31,10 @@ export default function Login({ navigation }) {
 
   useEffect(() => {
     const estadoUsuario = auth.onAuthStateChanged(usuario => {
-      if (usuario){
+      if (usuario != undefined){
         AsyncBuscarUsuarioPorId(usuario).then((dados) => {
+          setTipoUsuario(dados.TipoUsuario)
           definirTipoUsuario(usuario, dados.TipoUsuario)
-          navigation.replace("Home");
           setCarregando(false);
         });
       }else{
@@ -42,14 +43,19 @@ export default function Login({ navigation }) {
     });
 
     return () => estadoUsuario();
-  },[])
+  },[tipoUsuario])
 
   async function Logar(){
     setIsLoadingButton(true);
     const resultado = await logar(email, password);
       console.log(resultado);
+      console.log(tipoUsuario);
       if(resultado == 'ok'){
-        navigation.navigate('Home');
+        if (tipoUsuario == "Jogador"){
+          navigation.navigate('Home');
+        }else{
+          navigation.navigate('ListaPaciente');
+        }
       }
       else {
         //errorAlert(resultado)

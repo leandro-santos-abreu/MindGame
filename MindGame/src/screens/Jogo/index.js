@@ -12,6 +12,9 @@ import { difficulty_settings } from "../../utils/difficulty_settings"
 
 import victorySound from "../../../android/app/src/main/res/raw/victory.wav"
 import missSound from "../../../android/app/src/main/res/raw/wrong.wav"
+import GameData from "../../models/GameData"
+import { auth } from "../../config/firebase"
+import { salvarPartida } from "../../services/firestore_partida"
 
 var Sound = require('react-native-sound');
 
@@ -28,8 +31,9 @@ export default function Jogo({navigation, route}){
     const [vitoria, setVitoria] = useState(false);
     const [somVitoria, setSomVitoria] = useState();
     const [somErro, setSomErro] = useState();
-    const [quantErros, setQuantErros] = useState();
-    const [quantAcertos, setQuantAcertos] = useState();
+    const [quantidadeCliques, setQuantidadeCliques] = useState(0);
+    const [gameData, setGameData] = useState(new GameData(undefined, undefined, undefined, undefined, undefined));
+
 
     const carregarDados = () => {
       Sound.setCategory("Playback");
@@ -82,6 +86,17 @@ export default function Jogo({navigation, route}){
       setTempo(difficultySettings.Tempo);
 
       setUseEffectCompleted(true)
+    }
+
+    async function CadastrarPartida(jogo: GameData){
+      const retorno = await salvarPartida(jogo)
+  
+      if (retorno == "ok"){
+          Alert.alert("Partida Cadastrada com Sucesso!")
+          navigation.replace("Home");
+      }else{
+          Alert.alert("Erro ao Cadastrar Partida!")
+      }
     }
 
     useEffect(() => {
@@ -156,11 +171,17 @@ export default function Jogo({navigation, route}){
     </Box>
     
     function ValidaClique(item){
+      setQuantidadeCliques(quantidadeCliques + 1)
       if (item.Animal === objective.Animal){
         console.log("Vitoria");
         setVitoria(true);
         setFimJogo(true);
         somVitoria.play();
+
+        const summary = new GameData(globalGameOptions.Dificuldade, globalDadosFase.Jogo, globalGameOptions.Tema, difficultySettings.Tempo - tempo, quantidadeCliques + 1, auth.currentUser.uid)
+        setGameData(summary);
+        CadastrarPartida(summary);
+
         return;
       }
 
