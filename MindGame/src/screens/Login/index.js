@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import logo from '../../../assets/logo.png';
 import estilos from './estilos';
 import text_login_index from '../../texts/text_login_index.json'
@@ -16,57 +16,88 @@ import loading from "../../../assets/loading.gif"
 
 export default function Login({ navigation }) {
   const [isLoadingButton, setIsLoadingButton] = useState(false)
-  const [carregando, setCarregando] = useState(true)
-
+  const [carregando, setCarregando] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [tipoUsuario, setTipoUsuario] = useState("")
 
+  const useEffectLoadingRef = useRef(true);
+
   const { definirTipoUsuario, buscarTipoUsuario } = useContext(GlobalContext);
 
-  async function AsyncBuscarUsuarioPorId(usuario){
-    const dadosUsuario = await buscarUsuarioPorId(usuario.uid);
-    return dadosUsuario;
+  async function AsyncBuscarUsuarioPorId(usuario: UserCredential){
+
+    if (usuario){
+      const dadosUsuario = await buscarUsuarioPorId(usuario.user.uid);
+      return dadosUsuario;  
+    }
   }
 
-  useEffect(() => {
+  const AsyncFirstLoad = () => {
+    
     const estadoUsuario = auth.onAuthStateChanged(usuario => {
-      if (usuario != undefined){
+
+      if (usuario !== null){
         AsyncBuscarUsuarioPorId(usuario).then((dados) => {
-          setTipoUsuario(dados.TipoUsuario)
-          definirTipoUsuario(usuario, dados.TipoUsuario)
-          setCarregando(false);
+
+          console.log(dados);
+
+          setTipoUsuario(dados?.TipoUsuario);
+          definirTipoUsuario(usuario, dados?.TipoUsuario);
+
+          if (dados?.TipoUsuario == "Jogador"){
+            navigation.replace('Home');
+          }else{
+            navigation.replace('ListaPaciente');
+          }
+
         });
-      }else{
-        setCarregando(false);
       }
+
+      setCarregando(false);
+      useEffectLoadingRef.current = false;
+      
+      console.log(useEffectLoadingRef.current);
+
     });
 
-    return () => estadoUsuario();
-  },[tipoUsuario])
+  }
 
   async function Logar(){
     setIsLoadingButton(true);
-    const resultado = await logar(email, password);
-      console.log(resultado);
-      console.log(tipoUsuario);
-      if(resultado == 'ok'){
-        if (tipoUsuario == "Jogador"){
-          navigation.navigate('Home');
-        }else{
-          navigation.navigate('ListaPaciente');
+
+    console.log(useEffectLoadingRef.current);
+    if (!useEffectLoadingRef.current){
+      await logar(email, password).then((resultado) => {
+
+        if(resultado !== 'erro'){
+          AsyncBuscarUsuarioPorId(resultado).then((dados) => {
+            console.log(dados)
+            if (dados.TipoUsuario == "Jogador"){
+              navigation.navigate('Home');
+            }else{
+              navigation.navigate('ListaPaciente');
+            }
+          })
+          
         }
-      }
-      else {
-        //errorAlert(resultado)
-        Alert.alert(resultado)
-      }
-      setIsLoadingButton(false);
+        else {
+          Alert.alert(resultado)
+        }
+        setIsLoadingButton(false);
+      });  
+    }
   };
 
   function Cadastrar(){
     navigation.navigate('Cadastrar');
   }
+
+  useEffect(() => {
+    if (useEffectLoadingRef.current){
+      AsyncFirstLoad();
+    }
+  },[useEffectLoadingRef.current])
 
   if (carregando){
     return (

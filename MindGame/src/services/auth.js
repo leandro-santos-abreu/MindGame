@@ -27,7 +27,7 @@ function errosFirebase(error){
 export async function cadastro(email, senha, tipoUsuario): string{
     let dadosUsuario: UserCredential;
     try{
-        const dadosUsuario = await createUserWithEmailAndPassword(auth, email, senha);
+        dadosUsuario = await createUserWithEmailAndPassword(auth, email, senha);
         if (dadosUsuario.user){
             const user = new UserModel(dadosUsuario.user.uid, valueToEnum(tipoUsuario), email);
             const retorno = await salvarUsuario(user);
@@ -43,16 +43,12 @@ export async function cadastro(email, senha, tipoUsuario): string{
     }
 }
 
-export async function logar(email, senha){
-    const resultado = signInWithEmailAndPassword(auth, email, senha)
-    .then((dadosUsuario) => {
-      console.log(dadosUsuario)
-      return "ok"
-    })
-    .catch((error) => {
-        console.log(error)
-        return error
-    });
-
-    return resultado;
+export async function logar(email, senha): Promise<UserCredential | string>{
+    try {
+        const dadosUsuario = await signInWithEmailAndPassword(auth, email, senha);
+        return dadosUsuario;
+    } catch (error) {
+        console.error(error);
+        return 'erro';
+    }
 }

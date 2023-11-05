@@ -23,6 +23,9 @@ import { valueToEnum } from '../../enums/temas.enum';
 import { buscarPartidaDeJogadorIdPorTema } from '../../services/firestore_partida';
 import GameData from '../../models/GameData';
 
+import { CommonActions } from '@react-navigation/native';
+
+
 export default function Home({ navigation }) {
 
     const width = Dimensions.get('window').width;
@@ -36,7 +39,6 @@ export default function Home({ navigation }) {
     const [dadosJogador, setDadosJogador] = useState([]);
     const [dadosFaseJogador, setDadosFaseJogador] = useState(new GameData(undefined, undefined, undefined, undefined, undefined, undefined));
     const { buscarTipoUsuario, buscarIdPaciente } = useContext(GlobalContext);
-    
 
     useEffect(() => {
         setItemEscolhido("")
@@ -45,9 +47,15 @@ export default function Home({ navigation }) {
         setIdPaciente(buscarIdPaciente());
     }, [showModal])
 
+
     function logout() {
         auth.signOut();
-        navigation.replace("Login");
+        navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: 'Login' }],
+            })
+        );
     }
 
     async function exibirDadosJogador(item){
@@ -89,14 +97,14 @@ export default function Home({ navigation }) {
                                     <Image alt={itemEscolhido.Tema} source={itemEscolhido.Icone} style={{marginTop: 25, marginLeft: 5}}></Image>
                                     <FlatList 
                                     
-                                                        contentContainerStyle={{flexDirection: 'column', alignItems: "flex-end", justifyContent: "center", margin: 5, marginTop: 25}} 
+                                                        contentContainerStyle={{flexDirection: 'column', alignItems: "flex-end", justifyContent: "center", margin: 5, marginTop: 20}} 
                                                         data={dadosJogador}
-                                                        keyExtractor={item => item.Id}
+                                                        keyExtractor={item => item.DataInicio}
                                                         renderItem={({item}) => {
                                                             return (
                                                                 <Box>
                                                                     <TouchableOpacity onPress={() => exibirDadosFaseJogador(item)} style={estilos.caixaPartidas}>
-                                                                        <Text>{item.Dificuldade}</Text>
+                                                                        <Text style={{fontSize: 12}}>{item.DataInicio} - {item.Dificuldade}</Text>
                                                                     </TouchableOpacity>
                                                                 </Box>
                                                                 )
@@ -119,7 +127,7 @@ export default function Home({ navigation }) {
                                             <Text style={[estilos.modalDadosTexto, {marginBottom: 15}]}>{dadosFaseJogador.TempoDuracao}s</Text>
 
                                             <Text style={estilos.modalDadosTexto}>{text_home_index.TempoPrimeiroClique}</Text>
-                                            <Text style={[estilos.modalDadosTexto, {marginBottom: 15}]}>{dadosFaseJogador.TempoDuracao}s</Text>
+                                            <Text style={[estilos.modalDadosTexto, {marginBottom: 15}]}>{dadosFaseJogador.TempoPrimeiroClique}s</Text>
 
                                         </Box>
                                     </Box>
