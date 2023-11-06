@@ -25,7 +25,7 @@ export default function Login({ navigation }) {
 
   const { definirTipoUsuario, buscarTipoUsuario } = useContext(GlobalContext);
 
-  async function AsyncBuscarUsuarioPorId(usuario: UserCredential){
+  async function AsyncBuscarUsuarioPorUserCredential(usuario: UserCredential){
 
     if (usuario !== undefined){
       const dadosUsuario = await buscarUsuarioPorId(usuario.user.uid);
@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
     }
   }
 
-  async function AsyncBuscarUsuarioPorId(usuario: User){
+  async function AsyncBuscarUsuarioPorUser(usuario: User){
 
     if (usuario !== undefined){
       const dadosUsuario = await buscarUsuarioPorId(usuario.uid);
@@ -42,11 +42,12 @@ export default function Login({ navigation }) {
   }
 
   const AsyncFirstLoad = () => {
-    
+
     const estadoUsuario = auth.onAuthStateChanged(usuario => {
 
-      if (usuario){
-        AsyncBuscarUsuarioPorId(usuario).then((dados) => {
+      if (usuario && useEffectLoadingRef.current){
+
+        AsyncBuscarUsuarioPorUser(usuario).then((dados) => {
 
           console.log(dados);
 
@@ -75,11 +76,12 @@ export default function Login({ navigation }) {
     setIsLoadingButton(true);
 
     console.log(isLoadingButton);
-    if (!useEffectLoadingRef.current){
-      await logar(email, password).then((resultado) => {
+    if (!useEffectLoadingRef.current && !carregando){
+      await logar(email, password).then((resultado: UserCredential) => {
 
         if(resultado !== 'erro'){
-          AsyncBuscarUsuarioPorId(resultado).then((dados) => {
+          console.log(resultado);
+          AsyncBuscarUsuarioPorUserCredential(resultado).then((dados) => {
             console.log(dados)
             if (dados.TipoUsuario == "Jogador"){
               navigation.navigate('Home');
@@ -103,7 +105,7 @@ export default function Login({ navigation }) {
     }
   },[useEffectLoadingRef.current])
 
-  if (carregando || useEffectLoadingRef.current){
+  if (carregando){
     return (
       <Box style={estilos.containerAnimacao}>
         <Image alt='Carregando' style={estilos.imagem} source={loading}></Image>
