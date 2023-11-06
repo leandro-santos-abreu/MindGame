@@ -27,8 +27,16 @@ export default function Login({ navigation }) {
 
   async function AsyncBuscarUsuarioPorId(usuario: UserCredential){
 
-    if (usuario){
+    if (usuario !== undefined){
       const dadosUsuario = await buscarUsuarioPorId(usuario.user.uid);
+      return dadosUsuario;  
+    }
+  }
+
+  async function AsyncBuscarUsuarioPorId(usuario: User){
+
+    if (usuario !== undefined){
+      const dadosUsuario = await buscarUsuarioPorId(usuario.uid);
       return dadosUsuario;  
     }
   }
@@ -37,7 +45,7 @@ export default function Login({ navigation }) {
     
     const estadoUsuario = auth.onAuthStateChanged(usuario => {
 
-      if (usuario !== null){
+      if (usuario){
         AsyncBuscarUsuarioPorId(usuario).then((dados) => {
 
           console.log(dados);
@@ -66,7 +74,7 @@ export default function Login({ navigation }) {
   async function Logar(){
     setIsLoadingButton(true);
 
-    console.log(useEffectLoadingRef.current);
+    console.log(isLoadingButton);
     if (!useEffectLoadingRef.current){
       await logar(email, password).then((resultado) => {
 
@@ -78,13 +86,9 @@ export default function Login({ navigation }) {
             }else{
               navigation.navigate('ListaPaciente');
             }
+            setIsLoadingButton(false);
           })
-          
         }
-        else {
-          Alert.alert(resultado)
-        }
-        setIsLoadingButton(false);
       });  
     }
   };
@@ -99,7 +103,7 @@ export default function Login({ navigation }) {
     }
   },[useEffectLoadingRef.current])
 
-  if (carregando){
+  if (carregando || useEffectLoadingRef.current){
     return (
       <Box style={estilos.containerAnimacao}>
         <Image alt='Carregando' style={estilos.imagem} source={loading}></Image>

@@ -1,5 +1,5 @@
 import { Box, FlatList, Flex, Image, Text, Modal } from "native-base"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Alert, ImageBackground, TouchableOpacity } from "react-native"
 import GameOptions from "../../models/GameOptions"
 import { fases_imagens } from "../../utils/fases_imagens"
@@ -15,17 +15,16 @@ import missSound from "../../../android/app/src/main/res/raw/wrong.wav"
 import GameData from "../../models/GameData"
 import { auth } from "../../config/firebase"
 import { salvarPartida } from "../../services/firestore_partida"
+import { CommonActions } from "@react-navigation/native"
+import { deepCopy } from "../../utils/comum"
 
 var Sound = require('react-native-sound');
 
 export default function Jogo({navigation, route}){
     const [globalGameOptions, setGlobalGameOptions] = useState({Dificuldade: undefined, Tema: undefined});
     const [globalDadosFase, setGlobalDadosFase] = useState({Id: 0, Icone: undefined, Tema: "", Jogo: "", Imagem: undefined, Background: undefined, IconesSelecionaveis: []})
-    const [useEffectCompleted, setUseEffectCompleted] = useState(false);
     const [difficultySettings, setDifficultySettings] = useState({QuantidadeImagens: undefined, Tempo: undefined});
-    const [imagens, setImagens] = useState([]);
-    const [objective, setObjective] = useState({Imagem: undefined, Animal: undefined});
-    const [tempo, setTempo] = useState(0);
+    const [tempo, setTempo] = useState(-1);
     const [showModal, setShowModal] = useState(true);
     const [fimJogo, setFimJogo] = useState(false);
     const [vitoria, setVitoria] = useState(false);
@@ -35,6 +34,9 @@ export default function Jogo({navigation, route}){
     const [tempoPrimeiroClique, setTempoPrimeiroClique] = useState(0);
     const [gameData, setGameData] = useState(new GameData(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
 
+    const useEffectCompleted = useRef(false);
+    const imagensRef = useRef([]);
+    const objectiveRef = useRef({ Imagem: undefined, Animal: undefined });
 
     const carregarDados = () => {
       Sound.setCategory("Playback");
@@ -49,13 +51,12 @@ export default function Jogo({navigation, route}){
       setSomErro(local_somErro);
       setSomVitoria(local_somVitoria);
 
-
       const gameOptions = new GameOptions(route.params.gameOptions.Dificuldade, route.params.gameOptions.Tema);
       console.log(gameOptions);
       setGlobalGameOptions({...gameOptions});
       console.log(globalGameOptions);
 
-      const dadosFase = fases_imagens.find(f => f.Tema == globalGameOptions.Tema);
+      const dadosFase = fases_imagens.find(f => f.Tema == gameOptions.Tema);
       console.log(dadosFase);
   
       setGlobalDadosFase({...dadosFase});
@@ -66,44 +67,77 @@ export default function Jogo({navigation, route}){
       console.log(settings); 
 
       let imagensFase = [];
-      let escolha;
-      for(let i = 1; i < difficultySettings.QuantidadeImagens; i ++){
-        let index = Math.floor(Math.random() * (dadosFase.IconesSelecionaveis.length));
 
-        if (imagensFase.length === 0){
-          escolha = dadosFase.IconesSelecionaveis[index];
-          setObjective(escolha);
-          dadosFase.IconesSelecionaveis = dadosFase.IconesSelecionaveis.filter(item => {
-            return item !== escolha;
-          });
+      const maxCopies = 3;
+
+      const availableItems = dadosFase.IconesSelecionaveis.map(item => ({
+        item,
+        copies: maxCopies
+      }));
+
+
+      let index = Math.floor(Math.random() * (dadosFase.IconesSelecionaveis.length));
+      const escolha = dadosFase.IconesSelecionaveis[index];
+
+      availableItems.find(f => f.item === escolha).copies = 0;
+
+      while (availableItems.some(({ copies }) => copies > 0)) {
+        for (const { item, copies } of availableItems) {
+          if (copies > 0) {
+            imagensFase.push(item);
+            availableItems.find((i) => i.item === item).copies--; // Decrement copies
+          }
         }
-
-        imagensFase.push(dadosFase.IconesSelecionaveis[index]);
       }
 
-      imagensFase.push(escolha); //Setando Imagem Escolhida.
+      imagensFase = shuffle(imagensFase);
+      imagensFase = imagensFase.slice(0, settings.QuantidadeImagens-1);
+      imagensFase.push(escolha);
 
-      setImagens(imagensFase);
-      setTempo(difficultySettings.Tempo);
+      const imagensEmbaralhadas = shuffle(imagensFase);
+      imagensRef.current = imagensEmbaralhadas;
+      objectiveRef.current = escolha;
+      
+      setTempo(settings.Tempo);
 
-      setUseEffectCompleted(true)
+      useEffectCompleted.current = true;
     }
+
+    shuffle = (array) => {
+      let i = array.length - 1;
+      for (; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+      }
+      return array;
+    };
+    
 
     async function CadastrarPartida(jogo: GameData){
       const retorno = await salvarPartida(jogo)
   
       if (retorno == "ok"){
           Alert.alert("Partida Cadastrada com Sucesso!")
-          navigation.replace("Home");
+          VoltarHomePage();
       }else{
           Alert.alert("Erro ao Cadastrar Partida!")
       }
     }
 
+    const VoltarHomePage = () =>{
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        })
+      );
+    }
+
     useEffect(() => {
         carregarDados();
-        console.log(useEffectCompleted)
-    }, [useEffectCompleted])
+    }, [])
 
     useEffect(() => {
       if (!showModal && !fimJogo){
@@ -112,18 +146,20 @@ export default function Jogo({navigation, route}){
           setFimJogo(true)
         }
       }
+      console.log(showModal);
+      console.log(tempo);
     }, [showModal, tempo])
     
     
     
 
-    if (globalDadosFase.Background == undefined){
+    if (!useEffectCompleted.current){
         return (
           <Box style={estilos.containerAnimacao}>
             <Image alt='Carregando' style={estilos.imagem} source={loading}></Image>
           </Box>
         )
-      }
+    }
 
     return <Box style={{flex: 1}}>
         <ImageBackground style={estilos.background} source={globalDadosFase.Background}> 
@@ -138,7 +174,7 @@ export default function Jogo({navigation, route}){
                 </Modal.Content>
             </Modal>
 
-            <Modal isOpen={fimJogo} onClose={() => navigation.replace("Fases")}>
+            <Modal isOpen={fimJogo} onClose={() => VoltarHomePage()}>
                 <Modal.Content style={estilos.modal} maxWidth="300px" maxHeight="70px">
                         <Modal.Body>
                           {vitoria ? <Text>{text_jogo_index.Vitoria}</Text> : <Text>{text_jogo_index.Derrota}</Text>}
@@ -151,18 +187,18 @@ export default function Jogo({navigation, route}){
             </Box>
 
             <Box style={estilos.floresta}>
-              <Image alt={objective.Animal} style={{width: 100, height: 100}} source={objective.Imagem}></Image>
+              <Image alt={objectiveRef.current.Animal} style={{width: 100, height: 100}} source={objectiveRef.current.Imagem}></Image>
             </Box>
             <FlatList 
                   style={{marginTop: 35}}
-                  initialNumToRender={difficultySettings.QuantidadeImagens-1}
+                  initialNumToRender={difficultySettings.QuantidadeImagens}
                   numColumns = {5}
-                  data={imagens}
+                  data={imagensRef.current}
                   renderItem={({item}) => {
                     return (
                       <Box style={{flexDirection: 'row', alignItems: "center", justifyContent: "center", margin: 5}}>
                         <TouchableOpacity onPress={() => ValidaClique(item)}>
-                          <Image alt={item.Animal} style={estilos.icones} source={item.Imagem}></Image>
+                          <Image alt={item?.Animal} style={estilos.icones} source={item?.Imagem}></Image>
                         </TouchableOpacity>
                       </Box>
                   )}}
@@ -178,7 +214,9 @@ export default function Jogo({navigation, route}){
         setTempoPrimeiroClique(tempo)
       }
 
-      if (item.Animal === objective.Animal){
+      console.log(item.Animal);
+      console.log(objectiveRef.current.Animal);
+      if (item.Animal === objectiveRef.current.Animal){
         console.log("Vitoria");
         setVitoria(true);
         setFimJogo(true);

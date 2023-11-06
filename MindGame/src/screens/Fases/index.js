@@ -53,7 +53,7 @@ export default function Fases({ navigation }){
                     keyExtractor={item => item.Id}
                     renderItem={({item}) => {
                         return <TouchableOpacity onPress={() => abrirModal(item.Tema)}>
-                            <Image style={estilos.imagens} source={item.Imagem}></Image>
+                            <Image alt={item.Tema} style={estilos.imagens} source={item.Imagem}></Image>
                         </TouchableOpacity>
                     }}>
 
