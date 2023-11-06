@@ -82,6 +82,8 @@ export default function Login({ navigation }) {
         if(resultado !== 'erro'){
           console.log(resultado);
           AsyncBuscarUsuarioPorUserCredential(resultado).then((dados) => {
+            definirTipoUsuario(resultado, dados.TipoUsuario);
+
             console.log(dados)
             if (dados.TipoUsuario == "Jogador"){
               navigation.navigate('Home');

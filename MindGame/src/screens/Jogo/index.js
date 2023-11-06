@@ -209,8 +209,10 @@ export default function Jogo({navigation, route}){
     
     function ValidaClique(item){
       setQuantidadeCliques(quantidadeCliques + 1)
+      let localTempoPrimeiroClique = 0;
 
-      if (quantidadeCliques === 1){
+      if (quantidadeCliques === 0){
+        localTempoPrimeiroClique = tempo;
         setTempoPrimeiroClique(tempo)
       }
 
@@ -222,7 +224,14 @@ export default function Jogo({navigation, route}){
         setFimJogo(true);
         somVitoria.play();
 
-        const summary = new GameData(globalGameOptions.Dificuldade, globalDadosFase.Jogo, globalGameOptions.Tema, difficultySettings.Tempo - tempo, quantidadeCliques + 1, auth.currentUser.uid, difficultySettings.Tempo - tempoPrimeiroClique, new Date().toLocaleString('pt-BR'))
+        const summary = new GameData(globalGameOptions.Dificuldade, 
+                                     globalDadosFase.Jogo, 
+                                     globalGameOptions.Tema, 
+                                     difficultySettings.Tempo - tempo, 
+                                     quantidadeCliques + 1, 
+                                     auth.currentUser.uid, 
+                                     difficultySettings.Tempo - (quantidadeCliques === 0 ? localTempoPrimeiroClique: tempoPrimeiroClique), 
+                                     new Date().toLocaleString('pt-BR'));
         setGameData(summary);
         CadastrarPartida(summary);
 

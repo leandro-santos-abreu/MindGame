@@ -45,7 +45,7 @@ export default function Home({ navigation }) {
         setDadosFaseJogador(new GameData(undefined, undefined, undefined, undefined, undefined, undefined))
         setTipoUsuario(buscarTipoUsuario());
         setIdPaciente(buscarIdPaciente());
-    }, [showModal])
+    }, [])
 
 
     function logout() {
