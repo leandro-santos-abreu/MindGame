@@ -4,15 +4,14 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
     header: {
         backgroundColor: "#397DC9",
-        padding: 10,
-        flexWrap: 'wrap', 
-        alignItems: 'flex-start',
+        padding: 5,
+        width: "100%",
         flexDirection:'row',
-        
     },
     headerTextColumn: {
         flexDirection:'column',
         margin: 10,
+        alignItems: 'flex-start',
     },
     headerText:{
         color: "#F5F2E6"
@@ -21,7 +20,8 @@ export default StyleSheet.create({
         backgroundColor: "#F5DEA8",
         width: 60,
         height: 60,
-        borderRadius: 0.5 * 60
+        borderRadius: 0.5 * 60,
+        marginTop: 10,
     },
     titles:{
         color: '#397DC9',
@@ -40,11 +40,10 @@ export default StyleSheet.create({
         height: 300
     },
     flexContainer: {
-        flexWrap: 'wrap', 
-        alignItems: 'flex-start',
+        flex: 1,
         flexDirection:'row',
-        marginTop: 20,
-        marginLeft: 135
+        alignItems: 'center',
+        justifyContent: "flex-end"
     },
     caixaPartidas: {
         padding: 11,

@@ -29,7 +29,7 @@ export default function ListaPaciente({ navigation }) {
 
     function selecionarPaciente(item){
         definirIdPaciente(item.Id);
-        navigation.navigate("Home");
+        navigation.navigate("Home", item);
     }
 
     useEffect(() => {

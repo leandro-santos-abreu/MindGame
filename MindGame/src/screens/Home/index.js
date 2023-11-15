@@ -27,11 +27,13 @@ import GameData from '../../models/GameData';
 import { CommonActions } from '@react-navigation/native';
 
 
-export default function Home({ navigation }) {
+export default function Home({ route, navigation }) {
 
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
     const progressValue = useSharedValue(0);
+
+    const dadoPaciente = route.params; //Usado para exibir o paciente atual de um profissional
 
     const [showModal, setShowModal] = useState(false);
     const [tipoUsuario, setTipoUsuario] = useState("");
@@ -144,11 +146,11 @@ export default function Home({ navigation }) {
             <Box style={estilos.headerTextColumn}>
                 <Text style={[estilos.headerText, { fontSize: 12 }]}>{text_home_index.Bem_Vindo}</Text>
                 <Text style={[estilos.headerText, { fontSize: 15 }]}>{auth.currentUser.email}</Text>
+                {tipoUsuario == "Jogador" ? null : <Text  style={[estilos.headerText, { fontSize: 12, marginTop: 2}]}>{text_home_index.Paciente} {dadoPaciente.Email}</Text>}
             </Box>
             <Box style={estilos.flexContainer}>
                     {tipoUsuario == "Jogador" ? null : <Icon as={<MaterialCommunityIcons name={"account-details"} onPress={()=>{navigation.navigate('ListaPaciente')}} />} size={6} mr="2" color="#F5F2E6" />}
                     <Icon as={<MaterialCommunityIcons name={"logout"} onPress={logout} />} size={6} mr="2" color="#F5F2E6" />
-                
             </Box>
         </Box>
         <Box>
