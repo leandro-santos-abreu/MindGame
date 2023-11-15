@@ -10,6 +10,7 @@ import estilos from './estilos';
 import { Dados } from './jogos';
 import { fases_imagens } from '../../utils/fases_imagens'; 
 
+import Lock from '../../../assets/lock.png';
 import Logo from '../../../assets/logo.png';
 
 import text_home_index from '../../texts/text_home_index.json'
@@ -174,8 +175,9 @@ export default function Home({ navigation }) {
                 onSnapToItem={(index) => console.log('current index:', index)}
                 renderItem={({ item }) => (
                     <Box style={{ verticalAlign: "middle", alignItems: 'center' }}>
-                        <TouchableOpacity onPress={() => { tipoUsuario == TipoUsuarioEnum.Profissional ? setShowModal(true) : navigation.navigate('Fases') }}>
-                            <Image alt={item.jogo} style={[{ height: height * 0.65, width: width }, estilos.imagem]} source={item.imagem}></Image>
+                        <TouchableOpacity style={{position: 'relative'}} onPress={() => { tipoUsuario == TipoUsuarioEnum.Profissional ? setShowModal(true) : item.jogo === "Caça Figuras" ? navigation.navigate('Fases'): undefined }}>
+                            { !item.disponível ? <Image alt={"Jogo Disponível: " + item.disponível} source={Lock} style={{ position: 'absolute', opacity: 0.8, marginLeft: 80, top: 0, left: 0, right: 0, bottom: 0, zIndex: 2 , alignContent: 'center'}}></Image> : undefined}
+                            <Image alt={item.jogo} style={[{ height: height * 0.65, width: width}, estilos.imagem, item.jogo !== "Caça Figuras" ? {opacity: 0.4}: undefined]} source={item.imagem}></Image>
                         </TouchableOpacity>
                     </Box>
                 )}

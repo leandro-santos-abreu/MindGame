@@ -85,7 +85,7 @@ export default function Jogo({navigation, route}){
         for (const { item, copies } of availableItems) {
           if (copies > 0) {
             imagensFase.push(item);
-            availableItems.find((i) => i.item === item).copies--; // Decrement copies
+            availableItems.find((i) => i.item === item).copies--;
           }
         }
       }
@@ -119,18 +119,17 @@ export default function Jogo({navigation, route}){
       const retorno = await salvarPartida(jogo)
   
       if (retorno == "ok"){
-          Alert.alert("Partida Cadastrada com Sucesso!")
-          VoltarHomePage();
+          console.log("Partida Cadastrada com Sucesso!")
       }else{
-          Alert.alert("Erro ao Cadastrar Partida!")
+          console.log("Erro ao Cadastrar Partida!")
       }
     }
 
-    const VoltarHomePage = () =>{
+    const Voltar = () =>{
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{ name: 'Home' }],
+          routes: [{ name: 'Fases' }],
         })
       );
     }
@@ -164,8 +163,8 @@ export default function Jogo({navigation, route}){
     return <Box style={{flex: 1}}>
         <ImageBackground style={estilos.background} source={globalDadosFase.Background}> 
 
-            <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-                <Modal.Content style={estilos.modal} maxWidth="300px" maxHeight="70px">
+            <Modal isOpen={showModal} onClose={() => {setShowModal(false)}}>
+            <Modal.Content style={[estilos.modal, { backgroundColor: estilos[globalGameOptions.Tema]?.backgroundColor }]} maxWidth="300px" maxHeight="70px">
                       <TouchableOpacity style={{alignItems: "center", justifyContent: "center"}} onPress={() => setShowModal(false)}>
                         <Modal.Body>
                           <Text style={{fontSize:30, marginTop: 5, lineHeight: 30, fontWeight: "bold"}}>{text_jogo_index.Comecar}</Text>
@@ -174,8 +173,8 @@ export default function Jogo({navigation, route}){
                 </Modal.Content>
             </Modal>
 
-            <Modal isOpen={fimJogo} onClose={() => VoltarHomePage()}>
-                <Modal.Content style={estilos.modal} maxWidth="300px" maxHeight="70px">
+            <Modal isOpen={fimJogo} onClose={() => Voltar()}>
+                <Modal.Content style={[estilos.modal, { backgroundColor: estilos[globalGameOptions.Tema]?.backgroundColor }]} maxWidth="300px" maxHeight="70px">
                         <Modal.Body>
                           {vitoria ? <Text>{text_jogo_index.Vitoria}</Text> : <Text>{text_jogo_index.Derrota}</Text>}
                         </Modal.Body>
@@ -186,7 +185,7 @@ export default function Jogo({navigation, route}){
               <Text>{tempo}</Text>
             </Box>
 
-            <Box style={estilos.floresta}>
+            <Box style={estilos[globalGameOptions.Tema]}>
               <Image alt={objectiveRef.current.Animal} style={{width: 100, height: 100}} source={objectiveRef.current.Imagem}></Image>
             </Box>
             <FlatList 

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-    floresta:{
+    Floresta:{
         height: 109,
         width: 221,
         backgroundColor: '#154903',
@@ -11,11 +11,25 @@ export default StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    praia:{
-
+    Praia:{
+        height: 109,
+        width: 221,
+        backgroundColor: '#8dc3ea',
+        borderRadius: 5,
+        elevation: 6,
+        borderColor: "#000000",
+        alignItems: "center",
+        justifyContent: "center"
     },
-    oceano:{
-
+    Oceano:{
+        height: 109,
+        width: 221,
+        backgroundColor: '#1a77c8',
+        borderRadius: 5,
+        elevation: 6,
+        borderColor: "#000000",
+        alignItems: "center",
+        justifyContent: "center"
     },
     background:{
         flex: 1,
@@ -50,7 +64,6 @@ export default StyleSheet.create({
         justifyContent: "center"
     },
     modal:{
-        backgroundColor: "green",
         width: 320,
         height: 300
     },

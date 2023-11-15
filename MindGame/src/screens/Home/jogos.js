@@ -4,10 +4,12 @@ import QuebraCabeca from '../../../assets/puzzle.png'
 export const Dados = [
     {
         jogo: "Caça Figuras",
-        imagem: CacaFigura
+        imagem: CacaFigura,
+        disponível: true
     },
     {
         jogo: "Quebra Cabeças",
-        imagem: QuebraCabeca
+        imagem: QuebraCabeca,
+        disponível: false
     }
 ]
