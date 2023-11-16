@@ -146,7 +146,7 @@ export default function Home({ route, navigation }) {
             <Box style={estilos.headerTextColumn}>
                 <Text style={[estilos.headerText, { fontSize: 12 }]}>{text_home_index.Bem_Vindo}</Text>
                 <Text style={[estilos.headerText, { fontSize: 15 }]}>{auth.currentUser.email}</Text>
-                {tipoUsuario == "Jogador" ? null : <Text  style={[estilos.headerText, { fontSize: 12, marginTop: 2}]}>{text_home_index.Paciente} {dadoPaciente.Email}</Text>}
+                {tipoUsuario == "Jogador" ? null : <Text  style={[estilos.headerText, { fontSize: 12, marginTop: 2}]}>{text_home_index.Paciente} {dadoPaciente?.Email}</Text>}
             </Box>
             <Box style={estilos.flexContainer}>
                     {tipoUsuario == "Jogador" ? null : <Icon as={<MaterialCommunityIcons name={"account-details"} onPress={()=>{navigation.navigate('ListaPaciente')}} />} size={6} mr="2" color="#F5F2E6" />}

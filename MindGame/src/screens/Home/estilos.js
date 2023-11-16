@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
     header: {
         backgroundColor: "#397DC9",
-        padding: 5,
+        padding: 10,
         width: "100%",
         flexDirection:'row',
     },

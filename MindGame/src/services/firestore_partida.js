@@ -25,11 +25,32 @@ export async function buscarPartidaDeJogadorIdPorTema(jogadorId: string, tema: T
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach((doc) => {
-            partidas.push(new GameData(doc.data().Dificuldade, doc.data().Jogo, doc.data().Tema, doc.data().TempoDuracao, doc.data().QuantidadeCliques, doc.data().JogadorId, doc.data().TempoPrimeiroClique, doc.data().DataInicio));
+            partidas.push(new GameData(doc.data().Dificuldade, doc.data().Jogo, doc.data().Tema, doc.data().TempoDuracao, doc.data().QuantidadeCliques, doc.data().JogadorId, doc.data().TempoPrimeiroClique, doc.data().DataInicio, doc.data().Vitoria));
         });
 
         setDadosJogador(partidas);
         console.log(partidas[0])
+    } catch(error){
+        console.log("Erro buscar partidas:", error)
+        return "erro";
+    }
+}
+
+export async function buscarPartidasPorJogadorId(jogadorId: string, setPartidas){
+    try{
+        const userRef = collection(db, "partidas")
+        const q = query(userRef, where("JogadorId", "==", jogadorId));
+
+        let partidas = []
+
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+            partidas.push(new GameData(doc.data().Dificuldade, doc.data().Jogo, doc.data().Tema, doc.data().TempoDuracao, doc.data().QuantidadeCliques, doc.data().JogadorId, doc.data().TempoPrimeiroClique, doc.data().DataInicio, doc.data().Vitoria));
+        });
+
+        setPartidas(partidas);
+        return partidas;
     } catch(error){
         console.log("Erro buscar partidas:", error)
         return "erro";

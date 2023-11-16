@@ -17,6 +17,8 @@ export default StyleSheet.create({
     },
     imagens: {
         marginTop: 25,
+        resizeMode: 'cover',
+        marginRight: 60
     },
     botao:{
         width: 80,
@@ -37,5 +39,24 @@ export default StyleSheet.create({
         backgroundColor: "#03377D",
         width: 320,
         height: 154
+    },
+    trofeu:{
+        position: 'absolute',
+        top: 40,
+        alignSelf: "flex-end",
+        width: 50,
+        height: 70,
+        zIndex: 1, // Adjust the zIndex value as needed,
+        marginRight: 5
+    },
+    containerAnimacao:{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#F5DEA8",
+    },
+      imagem: {
+        height: 300,
+        width: 300
     }
 })

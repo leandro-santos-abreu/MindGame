@@ -9,8 +9,9 @@ export default class GameData{
     JogadorId: string;
     TempoPrimeiroClique: Number;
     DataInicio: Date;
+    Vitoria: Boolean;
     
-    constructor(Dificuldade, Jogo, Tema, TempoDuracao, QuantidadeCliques, JogadorId, TempoPrimeiroClique, DataInicio) {
+    constructor(Dificuldade, Jogo, Tema, TempoDuracao, QuantidadeCliques, JogadorId, TempoPrimeiroClique, DataInicio, Vitoria) {
         this.Dificuldade = Dificuldade,
         this.Jogo = Jogo
         this.Tema = Tema,
@@ -18,7 +19,8 @@ export default class GameData{
         this.QuantidadeCliques = QuantidadeCliques,
         this.JogadorId = JogadorId,
         this.TempoPrimeiroClique = TempoPrimeiroClique,
-        this.DataInicio = DataInicio
+        this.DataInicio = DataInicio,
+        this.Vitoria = Vitoria
     }
 
     toJSON() {
@@ -30,7 +32,8 @@ export default class GameData{
             QuantidadeCliques: this.QuantidadeCliques,
             JogadorId: this.JogadorId,
             TempoPrimeiroClique: this.TempoPrimeiroClique,
-            DataInicio: this.DataInicio
+            DataInicio: this.DataInicio,
+            Vitoria: this.Vitoria
         };
     }
 }

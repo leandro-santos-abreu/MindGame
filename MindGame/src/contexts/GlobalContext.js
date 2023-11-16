@@ -6,6 +6,8 @@ export function UserInfoProvider( {children} ) {
   const [TipoUsuario, setTipoUsuario] = useState("Jogador")
   const [IdPaciente, setIdPaciente] = useState("")
 
+  const [partidasUsuarioJogador, setPartidasUsuarioJogador] = useState([])
+
   function definirTipoUsuario(usuario, tipoUsuario){
     if(usuario){
       setTipoUsuario(tipoUsuario)
@@ -26,6 +28,11 @@ export function UserInfoProvider( {children} ) {
     }
   }
 
+  function definirPartidasUsuarioJogador(partidas){
+    setPartidasUsuarioJogador(partidas)
+    return 'ok'
+  }
+
   function buscarIdPaciente(){
     return IdPaciente;
   }
@@ -34,12 +41,18 @@ export function UserInfoProvider( {children} ) {
     return TipoUsuario;
   }
 
+  function buscarPartidasUsuarioJogador(){
+    return partidasUsuarioJogador;
+  }
+
   return (
     <GlobalContext.Provider value={{
         definirTipoUsuario,
         buscarTipoUsuario,
         definirIdPaciente,
-        buscarIdPaciente
+        buscarIdPaciente,
+        definirPartidasUsuarioJogador,
+        buscarPartidasUsuarioJogador
     }}>
       {children}
     </GlobalContext.Provider>

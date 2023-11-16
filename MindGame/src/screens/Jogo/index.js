@@ -1,6 +1,6 @@
 import { Box, FlatList, Flex, Image, Text, Modal } from "native-base"
 import React, { useEffect, useRef, useState } from "react"
-import { Alert, ImageBackground, TouchableOpacity } from "react-native"
+import { Alert, Dimensions, ImageBackground, TouchableOpacity } from "react-native"
 import GameOptions from "../../models/GameOptions"
 import { fases_imagens } from "../../utils/fases_imagens"
 import text_jogo_index from '../../texts/text_jogo_index.json'
@@ -21,6 +21,9 @@ import { deepCopy } from "../../utils/comum"
 var Sound = require('react-native-sound');
 
 export default function Jogo({navigation, route}){
+    const width = Dimensions.get('window').width;
+    const height = Dimensions.get('window').height;
+
     const [globalGameOptions, setGlobalGameOptions] = useState({Dificuldade: undefined, Tema: undefined});
     const [globalDadosFase, setGlobalDadosFase] = useState({Id: 0, Icone: undefined, Tema: "", Jogo: "", Imagem: undefined, Background: undefined, IconesSelecionaveis: []})
     const [difficultySettings, setDifficultySettings] = useState({QuantidadeImagens: undefined, Tempo: undefined});
@@ -32,7 +35,7 @@ export default function Jogo({navigation, route}){
     const [somErro, setSomErro] = useState();
     const [quantidadeCliques, setQuantidadeCliques] = useState(0);
     const [tempoPrimeiroClique, setTempoPrimeiroClique] = useState(0);
-    const [gameData, setGameData] = useState(new GameData(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+    const [gameData, setGameData] = useState(new GameData(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, false));
 
     const useEffectCompleted = useRef(false);
     const imagensRef = useRef([]);
@@ -126,10 +129,23 @@ export default function Jogo({navigation, route}){
     }
 
     const Voltar = () =>{
+
+      const summary = new GameData(globalGameOptions.Dificuldade, 
+        globalDadosFase.Jogo, 
+        globalGameOptions.Tema, 
+        difficultySettings.Tempo - tempo, 
+        quantidadeCliques, 
+        auth.currentUser.uid, 
+        difficultySettings.Tempo - tempoPrimeiroClique, 
+        new Date().toLocaleString('pt-BR'),
+        false);
+
+      CadastrarPartida(summary);
+
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{ name: 'Fases' }],
+          routes: [{ name: 'Home' }],
         })
       );
     }
@@ -188,21 +204,26 @@ export default function Jogo({navigation, route}){
             <Box style={estilos[globalGameOptions.Tema]}>
               <Image alt={objectiveRef.current.Animal} style={{width: 100, height: 100}} source={objectiveRef.current.Imagem}></Image>
             </Box>
-            <FlatList 
-                  style={{marginTop: 35}}
-                  initialNumToRender={difficultySettings.QuantidadeImagens}
-                  numColumns = {5}
-                  data={imagensRef.current}
-                  renderItem={({item}) => {
-                    return (
-                      <Box style={{flexDirection: 'row', alignItems: "center", justifyContent: "center", margin: 5}}>
-                        <TouchableOpacity onPress={() => ValidaClique(item)}>
-                          <Image alt={item?.Animal} style={estilos.icones} source={item?.Imagem}></Image>
-                        </TouchableOpacity>
-                      </Box>
-                  )}}
-                  keyExtractor={(item, index) => index.toString()}
-              />
+            <Box style={{height: height-220}}>
+              <FlatList 
+                    style={{marginTop: 35}}
+                    initialNumToRender={difficultySettings.QuantidadeImagens}
+                    numColumns = {5}
+                    data={imagensRef.current}
+                    maxHeight={360}
+                    persistentScrollbar={true}
+                    renderItem={({item}) => {
+                      return (
+                        <Box style={{flexDirection: 'row', alignItems: "center", justifyContent: "center", margin: 5}}>
+                          <TouchableOpacity onPress={() => ValidaClique(item)}>
+                            <Image alt={item?.Animal} style={estilos.icones} source={item?.Imagem}></Image>
+                          </TouchableOpacity>
+                        </Box>
+                    )}}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+
+            </Box>
         </ImageBackground>
     </Box>
     
@@ -230,7 +251,8 @@ export default function Jogo({navigation, route}){
                                      quantidadeCliques + 1, 
                                      auth.currentUser.uid, 
                                      difficultySettings.Tempo - (quantidadeCliques === 0 ? localTempoPrimeiroClique: tempoPrimeiroClique), 
-                                     new Date().toLocaleString('pt-BR'));
+                                     new Date().toLocaleString('pt-BR'),
+                                     true);
         setGameData(summary);
         CadastrarPartida(summary);
 
