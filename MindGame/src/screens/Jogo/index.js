@@ -18,6 +18,11 @@ import { salvarPartida } from "../../services/firestore_partida"
 import { CommonActions } from "@react-navigation/native"
 import { deepCopy } from "../../utils/comum"
 
+import trophy0 from '../../../assets/trophy0.png';
+import trophy1 from '../../../assets/trophy1.png';
+import trophy2 from '../../../assets/trophy2.png';
+import trophy3 from '../../../assets/trophy3.png';
+
 var Sound = require('react-native-sound');
 
 export default function Jogo({navigation, route}){
@@ -40,6 +45,14 @@ export default function Jogo({navigation, route}){
     const useEffectCompleted = useRef(false);
     const imagensRef = useRef([]);
     const objectiveRef = useRef({ Imagem: undefined, Animal: undefined });
+
+    const valoresDificuldades = {
+      "Fácil": 0,
+      "Médio": 1,
+      "Difícil": 2,
+    };
+
+    const trophies = [trophy1, trophy2, trophy3];
 
     const carregarDados = () => {
       Sound.setCategory("Playback");
@@ -190,9 +203,19 @@ export default function Jogo({navigation, route}){
             </Modal>
 
             <Modal isOpen={fimJogo} onClose={() => Voltar()}>
-                <Modal.Content style={[estilos.modal, { backgroundColor: estilos[globalGameOptions.Tema]?.backgroundColor }]} maxWidth="300px" maxHeight="70px">
-                        <Modal.Body>
-                          {vitoria ? <Text>{text_jogo_index.Vitoria}</Text> : <Text>{text_jogo_index.Derrota}</Text>}
+                <Modal.Content style={[estilos.modal, { backgroundColor: estilos[globalGameOptions.Tema]?.backgroundColor }]} maxWidth="300px" maxHeight="410px">
+                        <Modal.Body style={{borderColor: "white", borderRadius: 10, borderWidth: 8}}>
+                          {vitoria ? 
+                            <Box>
+                              <Text style={estilos.modalTexto}>{text_jogo_index.Vitoria}</Text>
+                              <Image alt="Trofeu" style={estilos.trofeu} source={trophies[valoresDificuldades[globalGameOptions.Dificuldade]]}></Image>
+                            </Box>
+                            : 
+                            <Box>
+                              <Text style={estilos.modalTexto}>{text_jogo_index.Derrota}</Text>
+                              <Image alt="Trofeu" style={estilos.trofeu} source={trophy0}></Image>
+                            </Box>}
+
                         </Modal.Body>
                 </Modal.Content>
             </Modal>

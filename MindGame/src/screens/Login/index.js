@@ -92,6 +92,9 @@ export default function Login({ navigation }) {
             }
             setIsLoadingButton(false);
           })
+        }else{
+          Alert.alert("Erro ao Realizar Login. Tente Novamente!")
+          setIsLoadingButton(false);
         }
       });  
     }

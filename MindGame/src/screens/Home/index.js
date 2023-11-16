@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect} from 'react';
 import { Box, Image, Text, Icon, Modal, FlatList, View } from 'native-base';
 import { Dimensions, SafeAreaView, TouchableOpacity } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
@@ -15,7 +15,7 @@ import Logo from '../../../assets/logo.png';
 
 import text_home_index from '../../texts/text_home_index.json'
 
-import { useSharedValue } from 'react-native-reanimated';
+import Animated, { useSharedValue } from 'react-native-reanimated';
 
 import { GlobalContext } from '../../contexts/GlobalContext';
 import { TipoUsuarioEnum } from '../../enums/tipoUsuario.enum';
@@ -33,7 +33,9 @@ export default function Home({ route, navigation }) {
     const height = Dimensions.get('window').height;
     const progressValue = useSharedValue(0);
 
-    const dadoPaciente = route.params; //Usado para exibir o paciente atual de um profissional
+    const dadoPaciente = route.params?.listaPaciente; //Usado para exibir o paciente atual de um profissional.
+    const tipoUsuarioCadastrado = route.params?.tipoUsuario //Usado para aproveitar o tipo de usuário da tela de cadastro.
+    console.log(route.params?.tipoUsuario);
 
     const [showModal, setShowModal] = useState(false);
     const [tipoUsuario, setTipoUsuario] = useState("");
@@ -44,12 +46,15 @@ export default function Home({ route, navigation }) {
     const { buscarTipoUsuario, buscarIdPaciente } = useContext(GlobalContext);
 
     useEffect(() => {
-        setItemEscolhido("")
-        setDadosFaseJogador(new GameData(undefined, undefined, undefined, undefined, undefined, undefined))
-        setTipoUsuario(buscarTipoUsuario());
-        setIdPaciente(buscarIdPaciente());
-    }, [])
+        const fetchData = async () => {
+            setItemEscolhido("")
+            setDadosFaseJogador(new GameData(undefined, undefined, undefined, undefined, undefined, undefined))
+            await setTipoUsuario(tipoUsuarioCadastrado ?? buscarTipoUsuario());
+            setIdPaciente(buscarIdPaciente());    
+        }
 
+        fetchData();
+    }, [])
 
     function logout() {
         auth.signOut();
@@ -72,9 +77,15 @@ export default function Home({ route, navigation }) {
         setDadosFaseJogador(dadosFase)
     }
 
+    const onCloseModal = () => {
+        setShowModal(false);
+        setItemEscolhido("");
+        setDadosFaseJogador(new GameData(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined))
+    }
+
     return <Box style={{ flex: 1, backgroundColor: "#F5DEA8", fontFamily: "Inter-Regular" }}>
 
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal isOpen={showModal} onClose={() => onCloseModal()}>
             <Modal.Content style={estilos.modal} maxWidth="320px" maxHeight="300px">
 
                 <Modal.Body>
@@ -97,9 +108,17 @@ export default function Home({ route, navigation }) {
 
                         : dadosFaseJogador.Tema === undefined ?
                                 <Box style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                                    <Image alt={itemEscolhido.Tema} source={itemEscolhido.Icone} style={{marginTop: 25, marginLeft: 5}}></Image>
-                                    <FlatList 
+                                          <Animated.Image
+                                            alt={itemEscolhido.Tema}
+                                            source={itemEscolhido.Icone}
+                                            style={{
+                                            marginTop: 25,
+                                            marginLeft: 5
+                                            }}
+                                        />
                                     
+                                    <FlatList 
+
                                                         contentContainerStyle={{flexDirection: 'column', alignItems: "flex-end", justifyContent: "center", margin: 5, marginTop: 20}} 
                                                         data={dadosJogador}
                                                         keyExtractor={item => item.DataInicio}
@@ -132,6 +151,8 @@ export default function Home({ route, navigation }) {
                                             <Text style={estilos.modalDadosTexto}>{text_home_index.TempoPrimeiroClique}</Text>
                                             <Text style={[estilos.modalDadosTexto, {marginBottom: 15}]}>{dadosFaseJogador.TempoPrimeiroClique}s</Text>
 
+                                            <Text style={estilos.modalDadosTexto}>{text_home_index.Vitoria}</Text>
+                                            <Text style={[estilos.modalDadosTexto, {marginBottom: 15}]}>{dadosFaseJogador.Vitoria ? "Sim": "Não"}</Text>
                                         </Box>
                                     </Box>
                                 </Box>

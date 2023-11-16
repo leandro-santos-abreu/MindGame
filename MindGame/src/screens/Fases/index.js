@@ -50,20 +50,13 @@ export default function Fases({ navigation }){
 
     useEffect(() => {
         const fetchData = async () => {
-            const partidasJogador = buscarPartidasUsuarioJogador() ?? [];
-            console.log(partidasJogador);
 
             let partidasLocal = [];
     
-            if (partidasJogador.length === 0){
-                // Use async/await to wait for the promise to resolve
-                const resultado = await buscarPartidasPorJogadorId(auth.currentUser.uid, setPartidas);
-                partidasLocal = resultado;
-                await definirPartidasUsuarioJogador(partidasLocal);
-            } else {
-                setPartidas(partidasJogador);
-                partidasLocal = partidasJogador;
-            }
+            const resultado = await buscarPartidasPorJogadorId(auth.currentUser.uid, setPartidas);
+            partidasLocal = resultado;
+            await definirPartidasUsuarioJogador(partidasLocal);
+
     
             const valoresDificuldades = {
                 "Fácil": 0,

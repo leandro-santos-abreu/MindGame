@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { Box, Image, Text, Input, Select, CheckIcon, Button, FormControl, Pressable, Icon, WarningOutlineIcon } from "native-base"
 import text_cadastro_index from '../../texts/text_cadastro_index.json'
 import estilos from "./estilos"
@@ -10,6 +10,7 @@ import { alteraDados, verificarEntradaVazia } from "../../utils/comum";
 import { regexValidation } from "../../utils/comum";
 import MaterialCommunityIcons  from "react-native-vector-icons/MaterialCommunityIcons"
 import { TipoUsuarioEnum } from "../../enums/tipoUsuario.enum";
+import { GlobalContext } from "../../contexts/GlobalContext";
 
 export default function Cadastrar({ navigation }){
     const [dados, setDados] = useState({
@@ -19,6 +20,7 @@ export default function Cadastrar({ navigation }){
     });
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const { definirTipoUsuario } = useContext(GlobalContext);
 
     async function Cadastrar(){
         if (verificarEntradaVazia(dados, setDados)){
@@ -27,9 +29,10 @@ export default function Cadastrar({ navigation }){
 
         setIsLoading(true);
         const resultado = await cadastro(dados.email, dados.senha, dados.tipoUsuario);
+        definirTipoUsuario(dados.tipoUsuario);
         console.log(resultado);
         if(resultado == 'ok'){
-            navigation.navigate('Home');
+            navigation.navigate('Home', { tipoUsuario: dados.tipoUsuario });
         }
         else {
         //errorAlert(resultado);

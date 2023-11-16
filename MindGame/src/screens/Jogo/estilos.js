@@ -65,12 +65,26 @@ export default StyleSheet.create({
     },
     modal:{
         width: 320,
-        height: 300
+        height: 310
     },
     button:{
         padding: 20,
         backgroundColor: "green",
         width: 300,
         height: 70,
+    },
+    modalTexto: {
+        alignSelf: "center", 
+        fontSize: 35, 
+        lineHeight: 50, 
+        color: "white", 
+        fontWeight: "bold"
+    },
+    trofeu: {
+        height: 200, 
+        width: 220, 
+        marginTop: 10, 
+        resizeMode:"contain", 
+        alignSelf: "center"
     }
 })
