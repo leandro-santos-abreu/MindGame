@@ -196,7 +196,7 @@ export default function Jogo({navigation, route}){
             <Modal.Content style={[estilos.modal, { backgroundColor: estilos[globalGameOptions.Tema]?.backgroundColor }]} maxWidth="300px" maxHeight="70px">
                       <TouchableOpacity style={{alignItems: "center", justifyContent: "center"}} onPress={() => setShowModal(false)}>
                         <Modal.Body>
-                          <Text style={{fontSize:30, marginTop: 5, lineHeight: 30, fontWeight: "bold"}}>{text_jogo_index.Comecar}</Text>
+                          <Text style={{fontSize:30, marginTop: 5, lineHeight: 30, fontWeight: "bold", color: "white"}}>{text_jogo_index.Comecar}</Text>
                         </Modal.Body>
                       </TouchableOpacity>                    
                 </Modal.Content>
@@ -204,6 +204,7 @@ export default function Jogo({navigation, route}){
 
             <Modal isOpen={fimJogo} onClose={() => Voltar()}>
                 <Modal.Content style={[estilos.modal, { backgroundColor: estilos[globalGameOptions.Tema]?.backgroundColor }]} maxWidth="300px" maxHeight="410px">
+                        <Modal.CloseButton color={"white"} />
                         <Modal.Body style={{borderColor: "white", borderRadius: 10, borderWidth: 8}}>
                           {vitoria ? 
                             <Box>
