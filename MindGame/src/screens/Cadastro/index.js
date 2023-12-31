@@ -31,8 +31,12 @@ export default function Cadastrar({ navigation }){
         const resultado = await cadastro(dados.email, dados.senha, dados.tipoUsuario);
         definirTipoUsuario(dados.tipoUsuario);
         console.log(resultado);
-        if(resultado == 'ok'){
-            navigation.navigate('Home', { tipoUsuario: dados.tipoUsuario });
+        if(resultado === 'ok'){
+            if (dados.tipoUsuario === "Jogador"){
+                navigation.navigate('Home', { tipoUsuario: dados.tipoUsuario });
+              }else{
+                navigation.navigate('ListaPaciente', { tipoUsuario: dados.tipoUsuario });
+            }
         }
         else {
         //errorAlert(resultado);

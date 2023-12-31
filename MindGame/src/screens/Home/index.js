@@ -49,15 +49,16 @@ export default function Home({ route, navigation }) {
         const fetchData = async () => {
             setItemEscolhido("")
             setDadosFaseJogador(new GameData(undefined, undefined, undefined, undefined, undefined, undefined))
-            await setTipoUsuario(tipoUsuarioCadastrado ?? buscarTipoUsuario());
+            const tipoUsuarioLocal = await buscarTipoUsuario();
+            await setTipoUsuario(tipoUsuarioLocal);
             setIdPaciente(buscarIdPaciente());    
         }
 
         fetchData();
     }, [])
 
-    function logout() {
-        auth.signOut();
+    async function logout() {
+        await auth.signOut();
         navigation.dispatch(
             CommonActions.reset({
               index: 0,

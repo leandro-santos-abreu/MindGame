@@ -17,6 +17,9 @@ function errosFirebase(error){
         case AuthErrorCodes.WEAK_PASSWORD:
             mensagem = "A senha precisa de, no mínimo, 6 caracteres";
             break;
+        case AuthErrorCodes.USER_DELETED:
+            mensagem = "Usuário informado não está cadastrado.";
+            break;
         default:
             mensagem = "Erro desconhecido";
     }
@@ -28,8 +31,9 @@ export async function cadastro(email, senha, tipoUsuario): string{
     let dadosUsuario: UserCredential;
     try{
         dadosUsuario = await createUserWithEmailAndPassword(auth, email, senha);
-        if (dadosUsuario.user){
-            const user = new UserModel(dadosUsuario.user.uid, valueToEnum(tipoUsuario), email);
+        console.log(dadosUsuario);
+        if (dadosUsuario?.user){
+            const user = new UserModel(dadosUsuario?.user?.uid, valueToEnum(tipoUsuario), email);
             const retorno = await salvarUsuario(user);
             return retorno
         }else{
@@ -37,8 +41,8 @@ export async function cadastro(email, senha, tipoUsuario): string{
         }
     }catch(error){
         console.log(error);
-        console.log(dadosUsuario.user);
-        deleteUser(dadosUsuario.user);
+        console.log(dadosUsuario?.user);
+        deleteUser(dadosUsuario?.user);
         return errosFirebase(error);
     }
 }
@@ -49,6 +53,6 @@ export async function logar(email, senha): Promise<UserCredential | string>{
         return dadosUsuario;
     } catch (error) {
         console.error(error);
-        return 'erro';
+        return errosFirebase(error);
     }
 }

@@ -8,14 +8,9 @@ export function UserInfoProvider( {children} ) {
 
   const [partidasUsuarioJogador, setPartidasUsuarioJogador] = useState([])
 
-  function definirTipoUsuario(usuario, tipoUsuario){
-    if(usuario){
-      setTipoUsuario(tipoUsuario)
-      return 'ok'
-    }
-    else {
-      return 'Falha ao Definir Tipo do Usuário'
-    }
+  function definirTipoUsuario(tipoUsuario){
+    setTipoUsuario(tipoUsuario)
+    return 'ok'
   }
 
   function definirIdPaciente(pacienteId: string){

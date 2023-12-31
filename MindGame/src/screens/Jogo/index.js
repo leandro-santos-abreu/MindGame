@@ -143,17 +143,19 @@ export default function Jogo({navigation, route}){
 
     const Voltar = () =>{
 
-      const summary = new GameData(globalGameOptions.Dificuldade, 
-        globalDadosFase.Jogo, 
-        globalGameOptions.Tema, 
-        difficultySettings.Tempo - tempo, 
-        quantidadeCliques, 
-        auth.currentUser.uid, 
-        difficultySettings.Tempo - tempoPrimeiroClique, 
-        new Date().toLocaleString('pt-BR'),
-        false);
-
-      CadastrarPartida(summary);
+      if (gameData === undefined){
+        const summary = new GameData(globalGameOptions.Dificuldade, 
+          globalDadosFase.Jogo, 
+          globalGameOptions.Tema, 
+          difficultySettings.Tempo - tempo, 
+          quantidadeCliques, 
+          auth.currentUser.uid, 
+          difficultySettings.Tempo - tempoPrimeiroClique, 
+          new Date().toLocaleString('pt-BR'),
+          false);
+  
+        CadastrarPartida(summary);  
+      }
 
       navigation.dispatch(
         CommonActions.reset({

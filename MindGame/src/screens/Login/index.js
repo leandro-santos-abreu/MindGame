@@ -52,7 +52,7 @@ export default function Login({ navigation }) {
           console.log(dados);
 
           setTipoUsuario(dados?.TipoUsuario);
-          definirTipoUsuario(usuario, dados?.TipoUsuario);
+          definirTipoUsuario(dados?.TipoUsuario);
 
           if (dados?.TipoUsuario == "Jogador"){
             navigation.replace('Home');
@@ -79,13 +79,13 @@ export default function Login({ navigation }) {
     if (!useEffectLoadingRef.current && !carregando){
       await logar(email, password).then((resultado: UserCredential) => {
 
-        if(resultado !== 'erro'){
+        if(!(typeof resultado === 'string')){
           console.log(resultado);
           AsyncBuscarUsuarioPorUserCredential(resultado).then((dados) => {
-            definirTipoUsuario(resultado, dados.TipoUsuario);
+            definirTipoUsuario(dados.TipoUsuario);
 
             console.log(dados)
-            if (dados.TipoUsuario == "Jogador"){
+            if (dados.TipoUsuario === "Jogador"){
               navigation.navigate('Home');
             }else{
               navigation.navigate('ListaPaciente');
@@ -93,11 +93,12 @@ export default function Login({ navigation }) {
             setIsLoadingButton(false);
           })
         }else{
-          Alert.alert("Erro ao Realizar Login. Tente Novamente!")
-          setIsLoadingButton(false);
+          Alert.alert(resultado)
         }
       });  
     }
+    setIsLoadingButton(false);
+    console.log(isLoadingButton);
   };
 
   function Cadastrar(){

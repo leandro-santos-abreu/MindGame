@@ -72,7 +72,6 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     namespace "com.mindgame"
     defaultConfig {
         applicationId "com.mindgame"

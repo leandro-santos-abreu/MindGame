@@ -21,23 +21,29 @@ export default function ListaPaciente({ navigation }) {
 
     const { definirIdPaciente } = useContext(GlobalContext);
 
-    const carregarDados = () => {
-        const retorno = buscarPacientesPorProfissionalId(auth.currentUser.uid)
-            .then((pacientes) => setPacientes(pacientes))
-            .then(setUseEffectCompleted(true));
+    const carregarDados = async() => {
+        const retorno = await buscarPacientesPorProfissionalId(auth.currentUser.uid);
+        if (retorno !== "erro"){
+            console.log(retorno);
+            setPacientes(retorno);    
+        }
     }
 
     function selecionarPaciente(item){
         definirIdPaciente(item.Id);
-        navigation.navigate("Home", { listaPaciente: item });
+        navigation.replace("Home", { listaPaciente: item });
     }
 
     useEffect(() => {
-        carregarDados();
-        console.log(useEffectCompleted)
-    }, [useEffectCompleted])
+        const fetchData = async () => {
+            await carregarDados();
+            setUseEffectCompleted(true);
+            console.log(useEffectCompleted);
+        }
+        fetchData();
+    })
 
-    if (useEffectCompleted == false){
+    if (useEffectCompleted === false){
         return (
           <Box style={estilos.containerAnimacao}>
             <Image alt='Carregando' style={estilos.imagem} source={loading}></Image>
